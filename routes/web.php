@@ -1,5 +1,4 @@
-    // تغيير كلمة المرور
-    Route::post('/profile/change-password', [ProfileController::class, 'changePassword'])->name('profile.changePassword');
+
 <?php
 
 define('PROFILE_ROUTE', '/profile');
