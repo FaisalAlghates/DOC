@@ -68,8 +68,6 @@ class DocumentationController extends Controller
             // إنشاء سجل documentation أولاً
             $docMain = \App\Models\Documentation::create([
                 'title' => $data['title'],
-                'description' => $data['purpose'] ?? '',
-                'doc_type' => 'engineering',
                 'user_id' => Auth::id(),
             ]);
             // تجهيز بيانات الجدول الفرعي فقط
@@ -83,7 +81,7 @@ class DocumentationController extends Controller
                 'documentation_id' => $docMain->id,
                 'user_id' => Auth::id(),
                 'action' => 'create',
-                'changes' => json_encode($engineeringData),
+                'changes' => json_encode(collect($data)->except(['title', 'user_id'])->toArray()),
             ]);
             return redirect()->route('docs.index')->with('message', 'Engineering documentation created successfully.');
         } else if ($request->has('project_name')) {
@@ -102,13 +100,11 @@ class DocumentationController extends Controller
             ]);
             $docMain = \App\Models\Documentation::create([
                 'title' => $data['project_name'],
-                'description' => $data['project_overview'] ?? '',
-                'doc_type' => 'bestpractice',
                 'user_id' => Auth::id(),
             ]);
             // تجهيز بيانات الجدول الفرعي فقط
             $bestPracticeData = collect($data)
-                ->except(['project_name', 'project_overview', 'user_id'])
+                ->except(['project_name', 'user_id'])
                 ->toArray();
             $bestPracticeData['documentation_id'] = $docMain->id;
             $doc = \App\Models\BestPracticeDocumentation::create($bestPracticeData);
@@ -116,7 +112,7 @@ class DocumentationController extends Controller
                 'documentation_id' => $docMain->id,
                 'user_id' => Auth::id(),
                 'action' => 'create',
-                'changes' => json_encode($bestPracticeData),
+                'changes' => json_encode(collect($data)->except(['project_name', 'user_id'])->toArray()),
             ]);
             return redirect()->route('docs.index')->with('message', 'Best Practice documentation created successfully.');
         }
@@ -154,11 +150,9 @@ class DocumentationController extends Controller
     public function update(Request $request, $id)
     {
         $docMain = \App\Models\Documentation::findOrFail($id);
-        // فقط المالك أو صاحب الوثيقة أو المطور على وثيقته يمكنه التعديل
+        // جميع المستخدمين لهم كامل الصلاحيات
         $user = Auth::user();
-        if ($user->role === 'developer' && $docMain->user_id !== $user->id) {
-            abort(403, 'غير مصرح لك بالتعديل على هذه الوثيقة');
-        }
+        
         $data = $request->all();
         // تحديث الجدول الرئيسي
         $docMain->update([
@@ -188,10 +182,8 @@ class DocumentationController extends Controller
     {
         $user = Auth::user();
         $docMain = \App\Models\Documentation::findOrFail($id);
-        // فقط المالك يمكنه الحذف
-        if ($user->role !== 'owner') {
-            abort(403, 'غير مصرح لك بحذف هذه الوثيقة');
-        }
+        // جميع المستخدمين لهم كامل الصلاحيات
+        
         // حذف جميع السجلات المرتبطة
         if ($docMain->doc_type === 'engineering') {
             \App\Models\EngineeringDocumentation::where('documentation_id', $docMain->id)->delete();

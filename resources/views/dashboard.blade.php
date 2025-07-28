@@ -22,12 +22,11 @@
                 <svg xmlns='http://www.w3.org/2000/svg' class='w-6 h-6 text-white group-hover:text-yellow-200 transition' fill='none' viewBox='0 0 24 24' stroke='currentColor'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M12 4v16m8-8H4'/></svg>
                 إنشاء توثيق جديد
             </a>
-            @if(auth()->user()->role === 'owner')
+            {{-- جميع المستخدمين لهم كامل الصلاحيات --}}
             <a href="{{ route('history.index') }}" class="dashboard-btn bg-gradient-to-r from-yellow-400 to-yellow-300 hover:from-yellow-500 hover:to-yellow-400">
                 <svg xmlns='http://www.w3.org/2000/svg' class='w-6 h-6 text-white group-hover:text-blue-200 transition' fill='none' viewBox='0 0 24 24' stroke='currentColor'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M3 7v4a1 1 0 001 1h3m10-5v4a1 1 0 01-1 1h-3m-4 4h4m-2 0v4m0-4V7'/></svg>
                 سجل العمليات
             </a>
-            @endif
         </div>
     </div>
 </div>

@@ -7,6 +7,7 @@
         <form method="POST" action="{{ route('testing.store') }}" class="flex flex-col gap-6"
             x-data="{
                 steps: [{step: 1, details: '', expected: '', result: '', actual: ''}],
+                projectSelected: false,
                 addStep() {
                     this.steps.push({step: this.steps.length+1, details: '', expected: '', result: '', actual: ''});
                 },
@@ -14,19 +15,39 @@
                     this.steps.splice(i, 1);
                     // إعادة ترقيم الخطوات بعد الحذف
                     this.steps.forEach((s, idx) => s.step = idx+1);
+                },
+                selectProject() {
+                    this.projectSelected = document.getElementById('documentation_id').value !== '';
                 }
             }"
         >
             @csrf
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div class="md:col-span-2">
-                    <label class="block mb-1 text-base font-semibold text-blue-700" for="documentation_id">Select Project <span class="text-red-500">*</span></label>
-                    <select id="documentation_id" name="documentation_id" class="w-full border border-blue-200 rounded-lg py-2 px-4 bg-white" required>
-                        <option value="" disabled selected>Select a project...</option>
-                        @foreach(App\Models\Documentation::all() as $doc)
-                            <option value="{{ $doc->id }}">{{ $doc->title ?? $doc->project_name ?? 'Doc #'.$doc->id }}</option>
-                        @endforeach
-                    </select>
+                    <label class="block mb-1 text-base font-semibold text-blue-700" for="documentation_id">اختر المشروع <span class="text-red-500">*</span></label>
+                    @if($projects->count() > 0)
+                        <select id="documentation_id" name="documentation_id" class="w-full border border-blue-200 rounded-lg py-2 px-4 bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-200" required onchange="showProjectInfo(this); selectProject()">
+                            <option value="" disabled selected>اختر المشروع الذي تريد إضافة اختبار له...</option>
+                            @foreach($projects as $doc)
+                                <option value="{{ $doc->id }}" data-user="المنشئ: {{ $doc->user->name ?? 'غير محدد' }}" data-created="تاريخ الإنشاء: {{ $doc->created_at->format('d/m/Y') }}">{{ $doc->title }} (#{{ $doc->id }})</option>
+                            @endforeach
+                        </select>
+                        <div id="project-info" class="text-sm text-gray-600 mt-2 hidden">
+                            <p id="project-details"></p>
+                        </div>
+                        <p class="text-sm text-gray-500 mt-1">حدد المشروع الذي تريد أن يكون هذا الاختبار تابعاً له</p>
+                    @else
+                        <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4 text-center">
+                            <svg class="mx-auto h-12 w-12 text-yellow-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z" />
+                            </svg>
+                            <h3 class="mt-4 text-lg font-medium text-yellow-800">لا توجد مشاريع متاحة</h3>
+                            <p class="mt-2 text-yellow-700">يجب إنشاء مشروع أولاً قبل إضافة اختبارات له.</p>
+                            <a href="{{ route('docs.create') }}" class="mt-4 inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+                                إنشاء مشروع جديد
+                            </a>
+                        </div>
+                    @endif
                 </div>
                 <div>
                     <label class="block mb-1 text-base font-semibold text-blue-700" for="test_case_id">Test Case ID</label>
@@ -109,6 +130,22 @@
             <button type="submit" class="doc-btn bg-black hover:bg-gray-900">Save Test</button>
         </form>
         <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+        <script>
+            function showProjectInfo(select) {
+                const option = select.options[select.selectedIndex];
+                const infoDiv = document.getElementById('project-info');
+                const detailsP = document.getElementById('project-details');
+                
+                if (option.value) {
+                    const userInfo = option.getAttribute('data-user');
+                    const createdInfo = option.getAttribute('data-created');
+                    detailsP.innerHTML = `${userInfo} | ${createdInfo}`;
+                    infoDiv.classList.remove('hidden');
+                } else {
+                    infoDiv.classList.add('hidden');
+                }
+            }
+        </script>
     </div>
 </div>
 @endsection

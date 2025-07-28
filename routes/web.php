@@ -54,9 +54,7 @@ Route::middleware(['auth'])->group(function () {
     Route::delete(DOCS_ID_ROUTE, [DocumentationController::class, 'destroy'])->name('docs.destroy');
     // Testing resourceful routes
     Route::get('/testing', [\App\Http\Controllers\TestingController::class, 'index'])->name('testing.index');
-    Route::get('/testing/create', function() {
-        return view('testing.create');
-    })->name('testing.create');
+    Route::get('/testing/create', [\App\Http\Controllers\TestingController::class, 'create'])->name('testing.create');
     Route::post('/testing', [\App\Http\Controllers\TestingController::class, 'store'])->name('testing.store');
     Route::get('/testing/{id}', [\App\Http\Controllers\TestingController::class, 'show'])->name('testing.show');
     Route::get('/testing/{id}/edit', [\App\Http\Controllers\TestingController::class, 'edit'])->name('testing.edit');

@@ -1,12 +1,12 @@
-use App\Models\DocumentHistory;
-use App\Models\Documentation;
-use Illuminate\Support\Facades\Auth;
 <?php
 
 namespace App\Http\Controllers;
 
 use App\Models\Testing;
+use App\Models\DocumentHistory;
+use App\Models\Documentation;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 
 class TestingController extends Controller
@@ -14,9 +14,8 @@ class TestingController extends Controller
     public function store(Request $request)
     {
         $user = Auth::user();
-        if (!in_array($user->role, ['owner', 'developer'])) {
-            abort(403, 'غير مصرح لك بإضافة اختبار');
-        }
+        // جميع المستخدمين لهم كامل الصلاحيات
+        
         $data = $request->validate([
             'documentation_id' => 'required|exists:documentations,id',
             'test_type' => 'nullable|string|max:255',
@@ -34,6 +33,9 @@ class TestingController extends Controller
             'steps' => 'nullable',
         ]);
 
+        // التحقق من وجود المشروع (جميع المستخدمين لهم كامل الصلاحيات)
+        $project = \App\Models\Documentation::findOrFail($data['documentation_id']);
+        
         // Convert prerequisites to array if not already
         if (isset($data['prerequisites']) && is_string($data['prerequisites'])) {
             $data['prerequisites'] = array_filter(array_map('trim', explode("\n", $data['prerequisites'])));
@@ -56,7 +58,7 @@ class TestingController extends Controller
                 'changes' => json_encode($data),
             ]);
         }
-        return redirect()->route('testing.index')->with('message', 'Test added successfully.');
+        return redirect()->route('testing.index')->with('message', 'تم إضافة الاختبار بنجاح للمشروع: ' . $project->title);
     }
     public function index(Request $request)
     {
@@ -68,6 +70,16 @@ class TestingController extends Controller
         $tests = $query->get();
         $projects = \App\Models\Documentation::all();
         return view('testing.index', compact('tests', 'projects', 'projectId'));
+    }
+
+    public function create()
+    {
+        $user = Auth::user();
+        // جميع المستخدمين لهم كامل الصلاحيات
+        
+        // جلب جميع المشاريع المتاحة
+        $projects = \App\Models\Documentation::all();
+        return view('testing.create', compact('projects'));
     }
 
     public function show($id)
@@ -85,9 +97,8 @@ class TestingController extends Controller
     public function update(Request $request, $id)
     {
         $user = Auth::user();
-        if (!in_array($user->role, ['owner', 'developer'])) {
-            abort(403, 'غير مصرح لك بتعديل الاختبار');
-        }
+        // جميع المستخدمين لهم كامل الصلاحيات
+        
         $test = Testing::findOrFail($id);
         $data = $request->validate([
             'documentation_id' => 'required|exists:documentations,id',
@@ -130,9 +141,8 @@ class TestingController extends Controller
     public function destroy($id)
     {
         $user = Auth::user();
-        if ($user->role !== 'owner') {
-            abort(403, 'غير مصرح لك بحذف الاختبار');
-        }
+        // جميع المستخدمين لهم كامل الصلاحيات
+        
         $test = Testing::findOrFail($id);
         $test->delete();
         return redirect()->route('testing.index')->with('message', 'Test deleted successfully.');

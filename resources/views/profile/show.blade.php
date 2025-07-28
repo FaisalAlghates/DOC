@@ -26,7 +26,7 @@
             <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded">Change Password</button>
         </form>
     </div>
-    @if($user->role === 'owner')
+    {{-- جميع المستخدمين لهم كامل الصلاحيات --}}
     <div class="bg-white rounded shadow p-8 mb-8">
         <h2 class="text-lg font-semibold mb-4">Add Developer by Email</h2>
         <form method="POST" action="{{ route('profile.addDeveloper') }}">
@@ -39,6 +39,6 @@
             <button type="submit" class="px-4 py-2 bg-green-600 text-white rounded">Add Developer</button>
         </form>
     </div>
-    @endif
+    {{-- إنهاء قسم إضافة المطور --}}
 </div>
 @endsection

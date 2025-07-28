@@ -12,9 +12,8 @@ class HistoryController extends Controller
     public function index()
     {
         $user = Auth::user();
-        if ($user->role !== 'owner') {
-            abort(403, 'غير مصرح لك بعرض السجل');
-        }
+        // جميع المستخدمين لهم كامل الصلاحيات
+        
         // جلب كل السجلات مع اسم المستخدم واسم الوثيقة
         $histories = DocumentHistory::with(['user', 'documentation'])->orderByDesc('created_at')->get();
         return view('history.index', compact('histories'));

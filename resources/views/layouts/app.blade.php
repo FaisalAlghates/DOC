@@ -16,7 +16,8 @@
     <header class="bg-white/80 shadow-md backdrop-blur sticky top-0 z-30">
         <div class="container mx-auto px-4 py-4 flex items-center justify-between">
             <div class="flex items-center gap-2">
-                <span class="text-6xl font-black tracking-widest animated-gradient-text shadow-2xl" style="letter-spacing:0.22em;line-height:1.05;text-shadow:0 2px 24px #2563eb,0 1px 0 #fff;">D HUP</span>
+                {{-- <span class="text-6xl font-black tracking-widest animated-gradient-text shadow-2xl" style="letter-spacing:0.22em;line-height:1.05;text-shadow:0 2px 24px #2563eb,0 1px 0 #fff;">D HUP</span> --}}
+            <h3>DHUP</h3>
             </div>
             <nav class="hidden md:flex gap-6 text-gray-700 font-medium">
                 @include('layouts.navigation')
