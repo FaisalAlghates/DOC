@@ -1,3 +1,5 @@
+    // تغيير كلمة المرور
+    Route::post('/profile/change-password', [ProfileController::class, 'changePassword'])->name('profile.changePassword');
 <?php
 
 define('PROFILE_ROUTE', '/profile');
@@ -32,11 +34,17 @@ Route::middleware(['auth'])->group(function () {
     // لوحة التحكم
     Route::get('/dashboard', fn() => view('dashboard'))->name('dashboard');
 
+    // صفحة الملف الشخصي (عرض)
+    Route::get('/profile/show', [ProfileController::class, 'show'])->name('profile.show');
+    // إضافة مطور (للمالك فقط)
+    Route::post('/profile/add-developer', [ProfileController::class, 'addDeveloper'])->name('profile.addDeveloper');
     // تعديل الملف الشخصي
     Route::get(PROFILE_ROUTE, [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch(PROFILE_ROUTE, [ProfileController::class, 'update'])->name('profile.update');
     Route::delete(PROFILE_ROUTE, [ProfileController::class, 'destroy'])->name('profile.destroy');
 
+    // سجل العمليات (للمالك فقط)
+    Route::get('/history', [\App\Http\Controllers\HistoryController::class, 'index'])->name('history.index');
     // CRUD التوثيقات
     Route::get('/docs', [DocumentationController::class, 'index'])->name('docs.index');
     Route::get('/docs/create', [DocumentationController::class, 'create'])->name('docs.create');

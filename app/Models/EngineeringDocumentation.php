@@ -10,4 +10,9 @@ class EngineeringDocumentation extends Model
     use HasFactory;
     protected $table = 'engineering_documentations';
     protected $guarded = [];
+
+    public function documentation()
+    {
+        return $this->belongsTo(\App\Models\Documentation::class);
+    }
 }

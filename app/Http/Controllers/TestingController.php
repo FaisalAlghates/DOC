@@ -1,3 +1,6 @@
+use App\Models\DocumentHistory;
+use App\Models\Documentation;
+use Illuminate\Support\Facades\Auth;
 <?php
 
 namespace App\Http\Controllers;
@@ -10,6 +13,10 @@ class TestingController extends Controller
 {
     public function store(Request $request)
     {
+        $user = Auth::user();
+        if (!in_array($user->role, ['owner', 'developer'])) {
+            abort(403, 'غير مصرح لك بإضافة اختبار');
+        }
         $data = $request->validate([
             'documentation_id' => 'required|exists:documentations,id',
             'test_type' => 'nullable|string|max:255',
@@ -39,6 +46,16 @@ class TestingController extends Controller
 
         $test = new \App\Models\Testing($data);
         $test->save();
+        // سجل العملية في history
+        $doc = Documentation::find($test->documentation_id);
+        if ($doc) {
+            DocumentHistory::create([
+                'documentation_id' => $doc->id,
+                'user_id' => $user->id,
+                'action' => 'add_test',
+                'changes' => json_encode($data),
+            ]);
+        }
         return redirect()->route('testing.index')->with('message', 'Test added successfully.');
     }
     public function index(Request $request)
@@ -67,6 +84,10 @@ class TestingController extends Controller
 
     public function update(Request $request, $id)
     {
+        $user = Auth::user();
+        if (!in_array($user->role, ['owner', 'developer'])) {
+            abort(403, 'غير مصرح لك بتعديل الاختبار');
+        }
         $test = Testing::findOrFail($id);
         $data = $request->validate([
             'documentation_id' => 'required|exists:documentations,id',
@@ -93,11 +114,25 @@ class TestingController extends Controller
         }
 
         $test->update($data);
+        // سجل العملية في history
+        $doc = Documentation::find($test->documentation_id);
+        if ($doc) {
+            DocumentHistory::create([
+                'documentation_id' => $doc->id,
+                'user_id' => $user->id,
+                'action' => 'update_test',
+                'changes' => json_encode($data),
+            ]);
+        }
         return redirect()->route('testing.index')->with('message', 'Test updated successfully.');
     }
 
     public function destroy($id)
     {
+        $user = Auth::user();
+        if ($user->role !== 'owner') {
+            abort(403, 'غير مصرح لك بحذف الاختبار');
+        }
         $test = Testing::findOrFail($id);
         $test->delete();
         return redirect()->route('testing.index')->with('message', 'Test deleted successfully.');

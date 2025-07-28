@@ -11,8 +11,12 @@ class DocumentationController extends Controller
 {
     public function index()
     {
-        $engineeringDocs = \App\Models\EngineeringDocumentation::where('user_id', Auth::id())->get();
-        $bestPracticeDocs = \App\Models\BestPracticeDocumentation::where('user_id', Auth::id())->get();
+        $engineeringDocs = \App\Models\EngineeringDocumentation::whereHas('documentation', function($q) {
+            $q->where('user_id', Auth::id());
+        })->get();
+        $bestPracticeDocs = \App\Models\BestPracticeDocumentation::whereHas('documentation', function($q) {
+            $q->where('user_id', Auth::id());
+        })->get();
         // دمج النتائج في مجموعة واحدة مع نوع التوثيق
         $docs = collect();
         foreach ($engineeringDocs as $doc) {
@@ -61,8 +65,26 @@ class DocumentationController extends Controller
                 'ui_ux' => 'nullable|string',
                 'conclusion' => 'nullable|string',
             ]);
-            $data['user_id'] = Auth::id();
-            $doc = \App\Models\EngineeringDocumentation::create($data);
+            // إنشاء سجل documentation أولاً
+            $docMain = \App\Models\Documentation::create([
+                'title' => $data['title'],
+                'description' => $data['purpose'] ?? '',
+                'doc_type' => 'engineering',
+                'user_id' => Auth::id(),
+            ]);
+            // تجهيز بيانات الجدول الفرعي فقط
+            $engineeringData = collect($data)
+                ->except(['title', 'user_id'])
+                ->toArray();
+            $engineeringData['documentation_id'] = $docMain->id;
+            $doc = \App\Models\EngineeringDocumentation::create($engineeringData);
+            // سجل العملية في history
+            \App\Models\DocumentHistory::create([
+                'documentation_id' => $docMain->id,
+                'user_id' => Auth::id(),
+                'action' => 'create',
+                'changes' => json_encode($engineeringData),
+            ]);
             return redirect()->route('docs.index')->with('message', 'Engineering documentation created successfully.');
         } else if ($request->has('project_name')) {
             // Best Practice template
@@ -78,41 +100,105 @@ class DocumentationController extends Controller
                 'deployment' => 'nullable|string',
                 'lessons' => 'nullable|string',
             ]);
-            $data['user_id'] = Auth::id();
-            $doc = \App\Models\BestPracticeDocumentation::create($data);
+            $docMain = \App\Models\Documentation::create([
+                'title' => $data['project_name'],
+                'description' => $data['project_overview'] ?? '',
+                'doc_type' => 'bestpractice',
+                'user_id' => Auth::id(),
+            ]);
+            // تجهيز بيانات الجدول الفرعي فقط
+            $bestPracticeData = collect($data)
+                ->except(['project_name', 'project_overview', 'user_id'])
+                ->toArray();
+            $bestPracticeData['documentation_id'] = $docMain->id;
+            $doc = \App\Models\BestPracticeDocumentation::create($bestPracticeData);
+            \App\Models\DocumentHistory::create([
+                'documentation_id' => $docMain->id,
+                'user_id' => Auth::id(),
+                'action' => 'create',
+                'changes' => json_encode($bestPracticeData),
+            ]);
             return redirect()->route('docs.index')->with('message', 'Best Practice documentation created successfully.');
         }
         return redirect()->route('docs.index')->with('message', 'لم يتم تحديد نموذج التوثيق.');
     }
 
-    public function show($id)
+
+    public function show(Request $request, $id)
     {
-        $doc = Documentation::findOrFail($id);
+        $type = $request->query('type');
+        if ($type === 'engineering') {
+            $doc = \App\Models\EngineeringDocumentation::findOrFail($id);
+        } elseif ($type === 'bestpractice') {
+            $doc = \App\Models\BestPracticeDocumentation::findOrFail($id);
+        } else {
+            abort(404, 'نوع التوثيق غير معروف');
+        }
         return view('docs.show', compact('doc'));
     }
 
-    public function edit($id)
+
+    public function edit(Request $request, $id)
     {
-        $doc = Documentation::findOrFail($id);
+        $type = $request->query('type');
+        if ($type === 'engineering') {
+            $doc = \App\Models\EngineeringDocumentation::findOrFail($id);
+        } elseif ($type === 'bestpractice') {
+            $doc = \App\Models\BestPracticeDocumentation::findOrFail($id);
+        } else {
+            abort(404, 'نوع التوثيق غير معروف');
+        }
         return view('docs.edit', compact('doc'));
     }
 
     public function update(Request $request, $id)
     {
-        $doc = Documentation::findOrFail($id);
-        $data = $request->validate([
-            'title' => 'required|string|max:255',
-            'content' => 'required|string',
+        $docMain = \App\Models\Documentation::findOrFail($id);
+        // فقط المالك أو صاحب الوثيقة أو المطور على وثيقته يمكنه التعديل
+        $user = Auth::user();
+        if ($user->role === 'developer' && $docMain->user_id !== $user->id) {
+            abort(403, 'غير مصرح لك بالتعديل على هذه الوثيقة');
+        }
+        $data = $request->all();
+        // تحديث الجدول الرئيسي
+        $docMain->update([
+            'title' => $data['title'] ?? $docMain->title,
+            'description' => $data['purpose'] ?? $docMain->description,
         ]);
-
-        $doc->update($data);
+        // تحديث الجدول الفرعي حسب النوع
+        if ($docMain->doc_type === 'engineering') {
+            $doc = \App\Models\EngineeringDocumentation::where('documentation_id', $docMain->id)->first();
+            $doc->update($data);
+        } elseif ($docMain->doc_type === 'bestpractice') {
+            $doc = \App\Models\BestPracticeDocumentation::where('documentation_id', $docMain->id)->first();
+            $doc->update($data);
+        }
+        // سجل العملية في history
+        \App\Models\DocumentHistory::create([
+            'documentation_id' => $docMain->id,
+            'user_id' => $user->id,
+            'action' => 'update',
+            'changes' => json_encode($data),
+        ]);
         return redirect()->route('docs.index')->with('message', 'تم تحديث التوثيق بنجاح.');
     }
 
-    public function destroy($id)
+
+    public function destroy(Request $request, $id)
     {
-        $doc = Documentation::findOrFail($id);
-        $doc->delete();
+        $user = Auth::user();
+        $docMain = \App\Models\Documentation::findOrFail($id);
+        // فقط المالك يمكنه الحذف
+        if ($user->role !== 'owner') {
+            abort(403, 'غير مصرح لك بحذف هذه الوثيقة');
+        }
+        // حذف جميع السجلات المرتبطة
+        if ($docMain->doc_type === 'engineering') {
+            \App\Models\EngineeringDocumentation::where('documentation_id', $docMain->id)->delete();
+        } elseif ($docMain->doc_type === 'bestpractice') {
+            \App\Models\BestPracticeDocumentation::where('documentation_id', $docMain->id)->delete();
+        }
+        $docMain->delete();
         return redirect()->route('docs.index')->with('message', 'تم حذف التوثيق.');
     }
 }

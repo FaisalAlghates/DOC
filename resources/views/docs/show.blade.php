@@ -19,15 +19,15 @@
         <div x-show="tab == 1">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8 px-6">
                 <div class="flex flex-col gap-4 bg-blue-50/60 rounded-xl p-6 border border-blue-100">
-                    <x-doc-field label="Purpose" :value="$doc->purpose" color="blue" />
-                    <x-doc-field label="Scope" :value="$doc->scope" color="blue" />
-                    <x-doc-field label="Definitions, Acronyms, and Abbreviations" :value="$doc->definitions" color="blue" />
+                    <livewire:doc-field label="Purpose" :value="$doc->purpose" color="blue" />
+                    <livewire:doc-field label="Scope" :value="$doc->scope" color="blue" />
+                    <livewire:doc-field label="Definitions, Acronyms, and Abbreviations" :value="$doc->definitions" color="blue" />
                 </div>
                 <div class="flex flex-col gap-4 bg-blue-50/60 rounded-xl p-6 border border-blue-100">
-                    <x-doc-field label="Overall Description" :value="$doc->overall_description" color="blue" />
-                    <x-doc-field label="Product Perspective" :value="$doc->product_perspective" color="blue" />
-                    <x-doc-field label="User Classes and Characteristics" :value="$doc->user_classes" color="blue" />
-                    <x-doc-field label="Operating Environment" :value="$doc->operating_environment" color="blue" />
+                    <livewire:doc-field label="Overall Description" :value="$doc->overall_description" color="blue" />
+                    <livewire:doc-field label="Product Perspective" :value="$doc->product_perspective" color="blue" />
+                    <livewire:doc-field label="User Classes and Characteristics" :value="$doc->user_classes" color="blue" />
+                    <livewire:doc-field label="Operating Environment" :value="$doc->operating_environment" color="blue" />
                 </div>
             </div>
             <!-- Testing Section -->
@@ -50,27 +50,27 @@
             @endif
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8 px-6">
                 <div class="flex flex-col gap-4 bg-green-50/60 rounded-xl p-6 border border-green-100">
-                    <x-doc-field label="Design and Implementation Constraints" :value="$doc->constraints" color="green" />
-                    <x-doc-field label="Assumptions and Dependencies" :value="$doc->assumptions" color="green" />
-                    <x-doc-field label="Functional Requirements" :value="$doc->functional_requirements" color="green" />
-                    <x-doc-field label="Non-Functional Requirements" :value="$doc->nonfunctional_requirements" color="green" />
+                    <livewire:doc-field label="Design and Implementation Constraints" :value="$doc->constraints" color="green" />
+                    <livewire:doc-field label="Assumptions and Dependencies" :value="$doc->assumptions" color="green" />
+                    <livewire:doc-field label="Functional Requirements" :value="$doc->functional_requirements" color="green" />
+                    <livewire:doc-field label="Non-Functional Requirements" :value="$doc->nonfunctional_requirements" color="green" />
                 </div>
                 <div class="flex flex-col gap-4 bg-yellow-50/60 rounded-xl p-6 border border-yellow-100">
-                    <x-doc-field label="Use Cases" :value="$doc->use_cases" color="yellow" />
-                    <x-doc-field label="Data Model (Entities & Relationships)" :value="$doc->data_model" color="yellow" />
-                    <x-doc-field label="Interface Requirements (UI & API)" :value="$doc->interface_requirements" color="yellow" />
+                    <livewire:doc-field label="Use Cases" :value="$doc->use_cases" color="yellow" />
+                    <livewire:doc-field label="Data Model (Entities & Relationships)" :value="$doc->data_model" color="yellow" />
+                    <livewire:doc-field label="Interface Requirements (UI & API)" :value="$doc->interface_requirements" color="yellow" />
                 </div>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8 px-6">
                 <div class="flex flex-col gap-4 bg-purple-50/60 rounded-xl p-6 border border-purple-100">
-                    <x-doc-field label="Appendices (Glossary, References)" :value="$doc->appendices" color="purple" />
-                    <x-doc-field label="SRS Compliance Report" :value="$doc->compliance_report" color="purple" />
-                    <x-doc-field label="Database Tables (Overview, Mapping)" :value="$doc->database_tables" color="purple" />
+                    <livewire:doc-field label="Appendices (Glossary, References)" :value="$doc->appendices" color="purple" />
+                    <livewire:doc-field label="SRS Compliance Report" :value="$doc->compliance_report" color="purple" />
+                    <livewire:doc-field label="Database Tables (Overview, Mapping)" :value="$doc->database_tables" color="purple" />
                 </div>
                 <div class="flex flex-col gap-4 bg-pink-50/60 rounded-xl p-6 border border-pink-100">
-                    <x-doc-field label="UI/UX" :value="$doc->ui_ux" color="pink" />
-                    <x-doc-field label="Conclusion" :value="$doc->conclusion" color="pink" />
-                    <x-doc-field label="Content (AI Generated or Manual)" :value="$doc->content" color="pink" />
+                    <livewire:doc-field label="UI/UX" :value="$doc->ui_ux" color="pink" />
+                    <livewire:doc-field label="Conclusion" :value="$doc->conclusion" color="pink" />
+                    <livewire:doc-field label="Content (AI Generated or Manual)" :value="$doc->content" color="pink" />
                     @if($doc->code_files && is_array($doc->code_files))
                         <div class="mt-4">
                             <div class="font-semibold text-pink-700 mb-2">Uploaded Code Files:</div>
@@ -89,24 +89,24 @@
             @if($project)
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8 px-6">
                 <div class="flex flex-col gap-4 bg-blue-50/60 rounded-xl p-6 border border-blue-100">
-                    <x-doc-field label="Project Name" :value="$project['project_name'] ?? ''" color="blue" />
-                    <x-doc-field label="Project Overview" :value="$project['project_overview'] ?? ''" color="blue" />
-                    <x-doc-field label="Stakeholders" :value="$project['stakeholders'] ?? ''" color="blue" />
+                    <livewire:doc-field label="Project Name" :value="$project['project_name'] ?? ''" color="blue" />
+                    <livewire:doc-field label="Project Overview" :value="$project['project_overview'] ?? ''" color="blue" />
+                    <livewire:doc-field label="Stakeholders" :value="$project['stakeholders'] ?? ''" color="blue" />
                 </div>
                 <div class="flex flex-col gap-4 bg-green-50/60 rounded-xl p-6 border border-green-100">
-                    <x-doc-field label="Business Goals" :value="$project['business_goals'] ?? ''" color="green" />
-                    <x-doc-field label="Deliverables" :value="$project['deliverables'] ?? ''" color="green" />
-                    <x-doc-field label="Timeline" :value="$project['timeline'] ?? ''" color="green" />
+                    <livewire:doc-field label="Business Goals" :value="$project['business_goals'] ?? ''" color="green" />
+                    <livewire:doc-field label="Deliverables" :value="$project['deliverables'] ?? ''" color="green" />
+                    <livewire:doc-field label="Timeline" :value="$project['timeline'] ?? ''" color="green" />
                 </div>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8 px-6">
                 <div class="flex flex-col gap-4 bg-yellow-50/60 rounded-xl p-6 border border-yellow-100">
-                    <x-doc-field label="Architecture & Technology Stack" :value="$project['architecture'] ?? ''" color="yellow" />
-                    <x-doc-field label="Risks & Mitigation" :value="$project['risks'] ?? ''" color="yellow" />
+                    <livewire:doc-field label="Architecture & Technology Stack" :value="$project['architecture'] ?? ''" color="yellow" />
+                    <livewire:doc-field label="Risks & Mitigation" :value="$project['risks'] ?? ''" color="yellow" />
                 </div>
                 <div class="flex flex-col gap-4 bg-purple-50/60 rounded-xl p-6 border border-purple-100">
-                    <x-doc-field label="Deployment & Maintenance" :value="$project['deployment'] ?? ''" color="purple" />
-                    <x-doc-field label="Lessons Learned" :value="$project['lessons'] ?? ''" color="purple" />
+                    <livewire:doc-field label="Deployment & Maintenance" :value="$project['deployment'] ?? ''" color="purple" />
+                    <livewire:doc-field label="Lessons Learned" :value="$project['lessons'] ?? ''" color="purple" />
                 </div>
             </div>
             @endif

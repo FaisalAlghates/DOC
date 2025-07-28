@@ -20,9 +20,8 @@
         </form>
 
         <div class="flex gap-2 mt-6">
-            <a href="{{ route('profile.show', $user->id ?? 1) }}" class="px-4 py-2 bg-gray-500 text-white rounded">عرض</a>
-            <a href="{{ route('profile.edit', $user->id ?? 1) }}" class="px-4 py-2 bg-yellow-500 text-white rounded">تعديل</a>
-            <form action="{{ route('profile.destroy', $user->id ?? 1) }}" method="POST" onsubmit="return confirm('هل أنت متأكد من حذف الحساب؟');" style="display:inline;">
+            <a href="{{ route('profile.edit') }}" class="px-4 py-2 bg-yellow-500 text-white rounded">تعديل</a>
+            <form action="{{ route('profile.destroy') }}" method="POST" onsubmit="return confirm('هل أنت متأكد من حذف الحساب؟');" style="display:inline;">
                 @csrf
                 @method('DELETE')
                 <button type="submit" class="px-4 py-2 bg-red-600 text-white rounded">حذف</button>

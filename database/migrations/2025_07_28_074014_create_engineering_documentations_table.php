@@ -11,16 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('documentations', function (Blueprint $table) {
+        Schema::create('engineering_documentations', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->string('title');
-            $table->string('purpose')->nullable();
-            $table->string('scope')->nullable();
+            $table->unsignedBigInteger('documentation_id');
+            $table->text('purpose')->nullable();
+            $table->text('scope')->nullable();
             $table->text('definitions')->nullable();
             $table->text('overall_description')->nullable();
-            $table->string('product_perspective')->nullable();
-            $table->string('user_classes')->nullable();
+            $table->text('product_perspective')->nullable();
+            $table->text('user_classes')->nullable();
             $table->text('operating_environment')->nullable();
             $table->text('constraints')->nullable();
             $table->text('assumptions')->nullable();
@@ -37,6 +36,8 @@ return new class extends Migration
             $table->text('content')->nullable();
             $table->json('code_files')->nullable();
             $table->timestamps();
+
+            $table->foreign('documentation_id')->references('id')->on('documentations')->cascadeOnDelete();
         });
     }
 
@@ -45,6 +46,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('documentations');
+        Schema::dropIfExists('engineering_documentations');
     }
 };
