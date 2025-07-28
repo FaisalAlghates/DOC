@@ -4,11 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-<<<<<<< HEAD
     "content-hash": "b0b88f1c2563a896b8b3d0252e619eb5",
-=======
-    "content-hash": "ce62a69d9e6eaf48f292081e7864ae19",
->>>>>>> d0212285c26e4b11142564f84088cacd45d68946
     "packages": [
         {
             "name": "brick/math",
@@ -3087,7 +3083,7 @@
             "time": "2025-06-29T09:23:53+00:00"
         },
         {
-<<<<<<< HEAD
+ 
             "name": "paragonie/constant_time_encoding",
             "version": "v3.0.0",
             "source": {
@@ -3205,8 +3201,8 @@
             "time": "2020-10-15T08:29:30+00:00"
         },
         {
-=======
->>>>>>> d0212285c26e4b11142564f84088cacd45d68946
+ 
+ 
             "name": "phpoption/phpoption",
             "version": "1.9.3",
             "source": {
