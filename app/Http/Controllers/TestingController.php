@@ -14,7 +14,7 @@ class TestingController extends Controller
     public function store(Request $request)
     {
         $user = Auth::user();
-        // جميع المستخدمين لهم كامل الصلاحيات
+        // All users have full permissions
         
         $data = $request->validate([
             'documentation_id' => 'required|exists:documentations,id',
@@ -33,10 +33,13 @@ class TestingController extends Controller
             'steps' => 'nullable',
         ]);
 
-        // التحقق من وجود المشروع (جميع المستخدمين لهم كامل الصلاحيات)
+        // Check if project exists (All users have full permissions)
         $project = \App\Models\Documentation::findOrFail($data['documentation_id']);
-        
-        // Convert prerequisites to array if not already
+
+        // Add user_id to the data
+        $data['user_id'] = $user->id;
+
+        // Convert prerequisites to array if it's a string
         if (isset($data['prerequisites']) && is_string($data['prerequisites'])) {
             $data['prerequisites'] = array_filter(array_map('trim', explode("\n", $data['prerequisites'])));
         }
@@ -48,7 +51,7 @@ class TestingController extends Controller
 
         $test = new \App\Models\Testing($data);
         $test->save();
-        // سجل العملية في history
+        // Record the operation in history
         $doc = Documentation::find($test->documentation_id);
         if ($doc) {
             DocumentHistory::create([
@@ -58,7 +61,7 @@ class TestingController extends Controller
                 'changes' => json_encode($data),
             ]);
         }
-        return redirect()->route('testing.index')->with('message', 'تم إضافة الاختبار بنجاح للمشروع: ' . $project->title);
+        return redirect()->route('testing.index')->with('message', 'Test added successfully to project: ' . $project->title);
     }
     public function index(Request $request)
     {
@@ -125,7 +128,7 @@ class TestingController extends Controller
         }
 
         $test->update($data);
-        // سجل العملية في history
+        // Record the operation in history
         $doc = Documentation::find($test->documentation_id);
         if ($doc) {
             DocumentHistory::create([

@@ -10,6 +10,7 @@ class Testing extends Model
     use HasFactory;
     protected $fillable = [
         'documentation_id',
+        'user_id',
         'test_type',
         'test_description',
         'test_results',
