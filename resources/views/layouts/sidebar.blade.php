@@ -1,18 +1,18 @@
-<aside class="fixed top-0 left-0 h-full w-64 bg-white border-r border-blue-100 shadow-lg z-40 flex flex-col transition-transform duration-300">
+<aside class="fixed top-20 left-0 h-[calc(100vh-5rem)] w-64 bg-white border-r border-blue-100 shadow-lg z-40 flex flex-col transition-transform duration-300">
   
     <nav class="flex-1 px-4 py-6 space-y-2">
-        <a href="{{ route('dashboard') }}" class="sidebar-link group">
+        {{-- <a href="{{ route('dashboard') }}" class="sidebar-link group">
             <svg xmlns='http://www.w3.org/2000/svg' class='w-5 h-5 text-indigo-600 group-hover:text-indigo-800 transition' fill='none' viewBox='0 0 24 24' stroke='currentColor'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2z'/><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M8 5v4m8-4v4'/></svg>
             <span>Dashboard</span>
-        </a>
-        {{-- <a href="{{ route('profile.edit') }}" class="sidebar-link group">
+        </a> --}}
+        <a href="{{ route('profile.edit') }}" class="sidebar-link group">
             <svg xmlns='http://www.w3.org/2000/svg' class='w-5 h-5 text-yellow-600 group-hover:text-yellow-800 transition' fill='none' viewBox='0 0 24 24' stroke='currentColor'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M5.121 17.804A13.937 13.937 0 0112 15c2.485 0 4.797.657 6.879 1.804M15 11a3 3 0 11-6 0 3 3 0 016 0z'/></svg>
             <span>Profile</span>
-        </a> --}}
-        <a href="{{ route('docs.index') }}" class="sidebar-link group">
-            <svg xmlns='http://www.w3.org/2000/svg' class='w-5 h-5 text-blue-600 group-hover:text-blue-800 transition' fill='none' viewBox='0 0 24 24' stroke='currentColor'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M8 16h8M8 12h8m-8-4h8M4 6h16'/></svg>
-            <span>Vestra Docs</span>
         </a>
+        {{-- <a href="{{ route('docs.index') }}" class="sidebar-link group">
+            <svg xmlns='http://www.w3.org/2000/svg' class='w-5 h-5 text-blue-600 group-hover:text-blue-800 transition' fill='none' viewBox='0 0 24 24' stroke='currentColor'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M8 16h8M8 12h8m-8-4h8M4 6h16'/></svg>
+            <span>Documentation</span>
+        </a> --}}
         <a href="{{ route('docs.create') }}" class="sidebar-link group">
             <svg xmlns='http://www.w3.org/2000/svg' class='w-5 h-5 text-green-600 group-hover:text-green-800 transition' fill='none' viewBox='0 0 24 24' stroke='currentColor'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M12 4v16m8-8H4'/></svg>
             <span>Add Documentation</span>
