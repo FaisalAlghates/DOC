@@ -12,6 +12,7 @@ class Documentation extends Model
     protected $fillable = [
         'user_id',
         'title',
+        'doc_type',
         'purpose',
         'scope',
         'definitions',

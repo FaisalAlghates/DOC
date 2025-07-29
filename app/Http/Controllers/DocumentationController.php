@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Documentation;
+use App\Models\DocumentHistory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Services\OpenAIService;
@@ -69,6 +70,7 @@ class DocumentationController extends Controller
             $docMain = \App\Models\Documentation::create([
                 'title' => $data['title'],
                 'user_id' => Auth::id(),
+                'doc_type' => 'engineering',
             ]);
             // تجهيز بيانات الجدول الفرعي فقط
             $engineeringData = collect($data)
@@ -77,7 +79,7 @@ class DocumentationController extends Controller
             $engineeringData['documentation_id'] = $docMain->id;
             $doc = \App\Models\EngineeringDocumentation::create($engineeringData);
             // سجل العملية في history
-            \App\Models\DocumentHistory::create([
+            DocumentHistory::create([
                 'documentation_id' => $docMain->id,
                 'user_id' => Auth::id(),
                 'action' => 'create',
@@ -101,6 +103,7 @@ class DocumentationController extends Controller
             $docMain = \App\Models\Documentation::create([
                 'title' => $data['project_name'],
                 'user_id' => Auth::id(),
+                'doc_type' => 'bestpractice',
             ]);
             // تجهيز بيانات الجدول الفرعي فقط
             $bestPracticeData = collect($data)
@@ -108,7 +111,7 @@ class DocumentationController extends Controller
                 ->toArray();
             $bestPracticeData['documentation_id'] = $docMain->id;
             $doc = \App\Models\BestPracticeDocumentation::create($bestPracticeData);
-            \App\Models\DocumentHistory::create([
+            DocumentHistory::create([
                 'documentation_id' => $docMain->id,
                 'user_id' => Auth::id(),
                 'action' => 'create',
@@ -124,9 +127,9 @@ class DocumentationController extends Controller
     {
         $type = $request->query('type');
         if ($type === 'engineering') {
-            $doc = \App\Models\EngineeringDocumentation::findOrFail($id);
+            $doc = \App\Models\EngineeringDocumentation::with('documentation.user')->findOrFail($id);
         } elseif ($type === 'bestpractice') {
-            $doc = \App\Models\BestPracticeDocumentation::findOrFail($id);
+            $doc = \App\Models\BestPracticeDocumentation::with('documentation.user')->findOrFail($id);
         } else {
             abort(404, 'نوع التوثيق غير معروف');
         }
@@ -168,7 +171,7 @@ class DocumentationController extends Controller
             $doc->update($data);
         }
         // سجل العملية في history
-        \App\Models\DocumentHistory::create([
+        DocumentHistory::create([
             'documentation_id' => $docMain->id,
             'user_id' => $user->id,
             'action' => 'update',
