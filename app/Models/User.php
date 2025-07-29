@@ -15,6 +15,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role',
     ];
 
     protected $hidden = [
@@ -45,5 +46,29 @@ class User extends Authenticatable
     public function projects()
     {
         return $this->hasMany(\App\Models\Project::class);
+    }
+
+    /**
+     * علاقة المستخدم بالتوثيقات
+     */
+    public function documentations()
+    {
+        return $this->hasMany(\App\Models\Documentation::class);
+    }
+
+    /**
+     * علاقة المستخدم بسجل التوثيقات
+     */
+    public function documentHistories()
+    {
+        return $this->hasMany(\App\Models\DocumentHistory::class);
+    }
+
+    /**
+     * تحقق من كون المستخدم admin
+     */
+    public function isAdmin()
+    {
+        return $this->role === 'admin';
     }
 }

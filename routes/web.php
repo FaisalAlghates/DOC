@@ -10,6 +10,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DocumentationController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\UserManagementController;
 
 // راوتات تسجيل مستخدم جديد
 Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
@@ -44,6 +45,10 @@ Route::middleware(['auth'])->group(function () {
 
     // سجل العمليات (للمالك فقط)
     Route::get('/history', [\App\Http\Controllers\HistoryController::class, 'index'])->name('history.index');
+    
+    // إدارة المستخدمين
+    Route::resource('users', \App\Http\Controllers\UserManagementController::class);
+    
     // CRUD التوثيقات
     Route::get('/docs', [DocumentationController::class, 'index'])->name('docs.index');
     Route::get('/docs/create', [DocumentationController::class, 'create'])->name('docs.create');
