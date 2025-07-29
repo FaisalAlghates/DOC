@@ -34,7 +34,14 @@
                 <div class="flex items-center space-x-4">
                     <div class="flex items-center space-x-2 bg-gradient-to-r from-purple-100 to-pink-100 dark:from-purple-900/50 dark:to-pink-900/50 px-4 py-2 rounded-xl">
                         <div class="w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
-                        <span class="text-sm font-semibold text-gray-700 dark:text-gray-300">{{ App\Models\Testing::count() }} Active Tests</span>
+                        <span class="text-sm font-semibold text-gray-700 dark:text-gray-300">
+                            {{ $tests->count() }} 
+                            @if(isset($projectId) && $projectId)
+                                Filtered Tests
+                            @else
+                                Total Tests
+                            @endif
+                        </span>
                     </div>
                     <a href="{{ route('testing.create') }}" class="group relative inline-flex items-center px-8 py-4 bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 text-white font-bold rounded-2xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 overflow-hidden">
                         <div class="absolute inset-0 bg-gradient-to-r from-purple-600 via-pink-600 to-red-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
@@ -49,32 +56,46 @@
 
         <!-- Enhanced Filter Section -->
         <div class="bg-white/50 dark:bg-slate-800/40 backdrop-blur-xl rounded-2xl border border-gray-200/50 dark:border-white/10 shadow-lg p-6 mb-8">
-            <form method="GET" action="" class="flex flex-wrap gap-6 items-center">
+            <form method="GET" action="{{ route('testing.index') }}" class="flex flex-wrap gap-6 items-center">
                 <div class="flex items-center space-x-4">
-                    <div class="w-12 h-12 bg-gradient-to-br from-blue-400 to-purple-500 rounded-xl flex items-center justify-center shadow-lg">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.707A1 1 0 013 7V4z"/>
+                    <div class="p-3 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl shadow-lg">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.414A1 1 0 013 6.707V4z"/>
                         </svg>
                     </div>
                     <div>
                         <label for="project" class="text-xl font-bold text-gray-800 dark:text-white block">Filter Tests</label>
-                        <p class="text-sm text-gray-500 dark:text-gray-400">Choose a project to filter by</p>
+                        <p class="text-sm text-gray-500 dark:text-gray-400">
+                            @if(isset($projectId) && $projectId)
+                                Showing {{ $tests->count() }} tests from selected project
+                            @else
+                                Choose a project to filter by ({{ $tests->count() }} total tests)
+                            @endif
+                        </p>
                     </div>
                 </div>
-                <select name="project" id="project" class="flex-1 min-w-[300px] bg-white/80 dark:bg-slate-700/80 border-2 border-gray-200 dark:border-gray-600 rounded-xl py-4 px-6 text-gray-800 dark:text-white text-lg font-semibold backdrop-blur-sm focus:ring-4 focus:ring-purple-400/50 focus:border-purple-400 transition-all shadow-lg" onchange="this.form.submit()">
-                    <option value="">🌟 All Projects</option>
-                    @foreach($projects ?? [] as $project)
-                        <option value="{{ $project->id }}" @if(isset($projectId) && $projectId == $project->id) selected @endif>
-                            📁 {{ $project->title ?? $project->project_name ?? 'Doc #'.$project->id }}
-                        </option>
-                    @endforeach
-                </select>
+                <div class="flex-1 flex items-center gap-4">
+                    <select name="project" id="project" class="flex-1 min-w-[300px] bg-white/80 dark:bg-slate-700/80 border-2 border-gray-200 dark:border-gray-600 rounded-xl py-4 px-6 text-gray-800 dark:text-white text-lg font-semibold backdrop-blur-sm focus:ring-4 focus:ring-purple-400/50 focus:border-purple-400 transition-all shadow-lg" onchange="this.form.submit()">
+                        <option value="">🌟 All Projects</option>
+                        @foreach($projects ?? [] as $project)
+                            <option value="{{ $project->id }}" @if(isset($projectId) && $projectId == $project->id) selected @endif>
+                                📁 {{ $project->title ?? $project->project_name ?? 'Doc #'.$project->id }}
+                            </option>
+                        @endforeach
+                    </select>
+                    @if(isset($projectId) && $projectId)
+                        <a href="{{ route('testing.index') }}" class="inline-flex items-center px-4 py-2 bg-red-500 hover:bg-red-600 text-white font-medium rounded-lg transition-all duration-200 transform hover:scale-105">
+                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                            Clear
+                        </a>
+                    @endif
+                </div>
             </form>
-        </div>
-
-        <!-- Modern Tests Grid -->
+        </div>        <!-- Modern Tests Grid -->
         <div class="grid gap-8">
-            @forelse(App\Models\Testing::latest()->get() as $test)
+            @forelse($tests as $test)
                 <div class="group bg-white/60 dark:bg-slate-800/50 backdrop-blur-2xl rounded-3xl border border-gray-200/50 dark:border-white/10 shadow-xl hover:shadow-2xl transition-all duration-500 overflow-hidden hover:transform hover:scale-[1.02]">
                     <!-- Card Header -->
                     <div class="bg-gradient-to-r from-purple-500/10 via-pink-500/10 to-blue-500/10 dark:from-purple-500/20 dark:via-pink-500/20 dark:to-blue-500/20 p-6 border-b border-gray-200/50 dark:border-white/10">
@@ -163,25 +184,55 @@
                     </div>
                 </div>
             @empty
-                <!-- Beautiful Empty State -->
+                <!-- Smart Empty State -->
                 <div class="bg-white/60 dark:bg-slate-800/50 backdrop-blur-2xl rounded-3xl border border-gray-200/50 dark:border-white/10 shadow-xl p-16 text-center">
                     <div class="max-w-md mx-auto">
                         <div class="relative w-32 h-32 mx-auto mb-8">
                             <div class="absolute inset-0 bg-gradient-to-tr from-purple-400 via-pink-400 to-blue-500 rounded-full opacity-20 animate-pulse"></div>
                             <div class="absolute inset-4 bg-gradient-to-tr from-purple-500 via-pink-500 to-blue-600 rounded-full flex items-center justify-center">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="w-16 h-16 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                    @if(isset($projectId) && $projectId)
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                                    @else
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                    @endif
                                 </svg>
                             </div>
                         </div>
-                        <h3 class="text-3xl font-black text-gray-800 dark:text-white mb-4">No Tests Yet!</h3>
-                        <p class="text-lg text-gray-600 dark:text-gray-300 mb-8 leading-relaxed">Start your testing journey by creating your first test case. It's quick and easy!</p>
-                        <a href="{{ route('testing.create') }}" class="inline-flex items-center px-8 py-4 bg-gradient-to-r from-purple-500 via-pink-500 to-blue-500 text-white font-bold rounded-2xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
-                            </svg>
-                            Create Your First Test
-                        </a>
+                        <h3 class="text-3xl font-black text-gray-800 dark:text-white mb-4">
+                            @if(isset($projectId) && $projectId)
+                                No Tests Found
+                            @else
+                                No Tests Yet!
+                            @endif
+                        </h3>
+                        <p class="text-lg text-gray-600 dark:text-gray-300 mb-8 leading-relaxed">
+                            @if(isset($projectId) && $projectId)
+                                No tests match your current filter. Try selecting a different project or clear the filter to see all tests.
+                            @else
+                                Start your testing journey by creating your first test case. It's quick and easy!
+                            @endif
+                        </p>
+                        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                            @if(isset($projectId) && $projectId)
+                                <a href="{{ route('testing.index') }}" class="inline-flex items-center px-6 py-3 bg-gray-600 hover:bg-gray-700 text-white font-bold rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                                    </svg>
+                                    Clear Filter
+                                </a>
+                            @endif
+                            <a href="{{ route('testing.create') }}" class="inline-flex items-center px-8 py-4 bg-gradient-to-r from-purple-500 via-pink-500 to-blue-500 text-white font-bold rounded-2xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+                                </svg>
+                                @if(isset($projectId) && $projectId)
+                                    Add New Test
+                                @else
+                                    Create Your First Test
+                                @endif
+                            </a>
+                        </div>
                     </div>
                 </div>
             @endforelse
