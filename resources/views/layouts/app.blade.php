@@ -205,7 +205,7 @@
         @endauth
         
         <!-- Main Content -->
-        <main class="relative flex-1 flex items-center justify-center py-8 ml-0 {{ auth()->check() && !request()->routeIs('welcome', 'login', 'register') ? 'md:ml-64' : '' }} transition-all duration-300 min-h-screen">
+        <main class="relative flex-1 flex items-center justify-center py-8 ml-0 {{ auth()->check() && !request()->routeIs('welcome', 'login', 'register') ? 'md:ml-72' : '' }} transition-all duration-300 min-h-screen">
             @if(auth()->check() && !request()->routeIs('welcome', 'login', 'register'))
                 <!-- Authenticated Layout -->
                 <div class="w-full px-8">
@@ -276,7 +276,7 @@
     
     <!-- ==================== FOOTER SECTION ==================== -->
     @if(!request()->routeIs('welcome', 'login', 'register'))
-    <footer class="relative bg-gradient-to-r from-slate-900 via-gray-900 to-slate-900 text-white overflow-hidden">
+    <footer class="relative bg-gradient-to-r from-slate-900 via-gray-900 to-slate-900 text-white overflow-hidden z-50 {{ auth()->check() && !request()->routeIs('welcome', 'login', 'register') ? 'md:ml-72' : '' }} transition-all duration-300">
         <!-- Footer Background Effects -->
         <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
         <div class="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width="40" height="40" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="%23ffffff" fill-opacity="0.03"%3E%3Cpath d="M20 20c0 11.046-8.954 20-20 20v-40c11.046 0 20 8.954 20 20z"/%3E%3C/g%3E%3C/svg%3E')] opacity-20"></div>
