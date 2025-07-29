@@ -213,7 +213,7 @@
         @endif
         
         <div class="flex gap-4 px-6 pb-8">
-            <a href="{{ route('docs.edit', $doc->documentation->id) }}" class="px-5 py-2 bg-yellow-400 hover:bg-yellow-500 text-white rounded-lg font-semibold flex items-center gap-1 transition"><svg xmlns='http://www.w3.org/2000/svg' class='w-5 h-5' fill='none' viewBox='0 0 24 24' stroke='currentColor'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M15.232 5.232l3.536 3.536M9 13l6-6m2 2l-6 6m2 2l-6 6m2-2l6-6'/></svg>Edit</a>
+            <a href="{{ route('docs.edit', ['id' => $doc->documentation->id, 'type' => $doc->documentation->doc_type]) }}" class="px-5 py-2 bg-yellow-400 hover:bg-yellow-500 text-white rounded-lg font-semibold flex items-center gap-1 transition"><svg xmlns='http://www.w3.org/2000/svg' class='w-5 h-5' fill='none' viewBox='0 0 24 24' stroke='currentColor'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M15.232 5.232l3.536 3.536M9 13l6-6m2 2l-6 6m2 2l-6 6m2-2l6-6'/></svg>Edit</a>
             <form action="{{ route('docs.destroy', $doc->documentation->id) }}" method="POST" class="inline">
                 @csrf @method('DELETE')
                 <button class="px-5 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg font-semibold flex items-center gap-1 transition" onclick="return confirm('Are you sure you want to delete this documentation?')"><svg xmlns='http://www.w3.org/2000/svg' class='w-5 h-5' fill='none' viewBox='0 0 24 24' stroke='currentColor'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M6 18L18 6M6 6l12 12'/></svg>Delete</button>

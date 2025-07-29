@@ -145,7 +145,7 @@ class DocumentationController extends Controller
         } elseif ($type === 'bestpractice') {
             $doc = \App\Models\BestPracticeDocumentation::with('documentation.user')->findOrFail($id);
         } else {
-            abort(404, 'نوع التوثيق غير معروف');
+            abort(404, 'Unknown documentation type');
         }
         return view('docs.edit', compact('doc'));
     }
