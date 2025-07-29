@@ -9,9 +9,9 @@
             <svg xmlns='http://www.w3.org/2000/svg' class='inline w-10 h-10 text-yellow-400 animate-spin-slow' fill='none' viewBox='0 0 24 24'><circle class='opacity-25' cx='12' cy='12' r='10' stroke='currentColor' stroke-width='4'/><path class='opacity-75' fill='currentColor' d='M4 12a8 8 0 018-8v8z'/></svg>
             Dashboard
         </h1>
-        <p class="text-xl md:text-2xl text-blue-600 mb-10 leading-relaxed animate-dashboard-fade-slow">
-            Welcome <span class="font-bold text-yellow-500">{{ auth()->user()->name }}</span> 👋<br>
-            <span class="text-blue-400">We wish you a day full of creativity and achievements.</span>
+        <p class="text-xl md:text-2xl text-black mb-10 leading-relaxed animate-dashboard-fade-slow">
+            Welcome <span class="font-bold text-yellow-600">{{ auth()->user()->name }}</span> 👋<br>
+            <span class="text-black">We wish you a day full of creativity and achievements.</span>
         </p>
         <div class="flex flex-col md:flex-row gap-6 justify-center animate-dashboard-fade-slow">
             <a href="{{ route('docs.index') }}" class="dashboard-btn bg-gradient-to-r from-blue-500 to-blue-400 hover:from-blue-600 hover:to-blue-500">

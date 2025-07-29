@@ -26,18 +26,25 @@
 
         <a href="{{ route('testing.index') }}" class="sidebar-link group">
             <svg xmlns='http://www.w3.org/2000/svg' class='w-5 h-5 text-purple-600 group-hover:text-purple-800 transition' fill='none' viewBox='0 0 24 24' stroke='currentColor'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M9 17v-2a4 4 0 014-4h2a4 4 0 014 4v2M9 17H7a2 2 0 01-2-2v-2a6 6 0 016-6h2a6 6 0 016 6v2a2 2 0 01-2 2h-2'></path></svg>
-            <span>Testing</span>
+            <span>Your Testing</span>
         </a>
 
         <a href="{{ route('history.index') }}" class="sidebar-link group">
             <svg xmlns='http://www.w3.org/2000/svg' class='w-5 h-5 text-teal-600 group-hover:text-teal-800 transition' fill='none' viewBox='0 0 24 24' stroke='currentColor'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z'/></svg>
-            <span>History</span>
+            <span>Your History</span>
         </a>
 
+        <a href="{{ route('profile.show') }}" class="sidebar-link group">
+            <svg xmlns='http://www.w3.org/2000/svg' class='w-5 h-5 text-pink-600 group-hover:text-pink-800 transition' fill='none' viewBox='0 0 24 24' stroke='currentColor'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z'/></svg>
+            <span>Your Profile</span>
+        </a>
+
+        @if(Auth::user()->canManageUsers())
         <a href="{{ route('users.index') }}" class="sidebar-link group">
             <svg xmlns='http://www.w3.org/2000/svg' class='w-5 h-5 text-indigo-600 group-hover:text-indigo-800 transition' fill='none' viewBox='0 0 24 24' stroke='currentColor'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z'/></svg>
-            <span>Users</span>
+            <span>System Users</span>
         </a>
+        @endif
 
         <form method="POST" action="{{ route('logout') }}" class="mt-8">
             @csrf
@@ -55,7 +62,7 @@
             padding: 0.75rem 1rem;
             border-radius: 0.75rem;
             font-weight: 600;
-            color: #000000;
+            color: #000000 !important;
             background: linear-gradient(90deg,rgba(255,255,255,0.7),rgba(245,245,255,0.7));
             box-shadow: 0 1px 4px 0 rgba(0,0,0,0.03);
             transition: all 0.18s cubic-bezier(.4,0,.2,1);

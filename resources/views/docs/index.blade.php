@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="max-w-4xl mx-auto py-12 px-2 md:px-6">
-    <h2 class="text-3xl font-extrabold text-blue-700 mb-8 flex items-center gap-2">
+    <h2 class="text-3xl font-extrabold text-black mb-8 flex items-center gap-2">
         <svg xmlns='http://www.w3.org/2000/svg' class='w-8 h-8 text-blue-400' fill='none' viewBox='0 0 24 24' stroke='currentColor'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M8 16h8M8 12h8m-8-4h8M4 6h16M4 10h16M4 14h16M4 18h16'/></svg>
         Documentation List
     </h2>
@@ -18,13 +18,13 @@
                             style="background: {{ $doc->doc_type === 'engineering' ? 'linear-gradient(90deg,#3b82f6,#a78bfa,#f472b6)' : 'linear-gradient(90deg,#4ade80,#fde047,#f87171)'}}; color: #fff; box-shadow:0 2px 8px 0 rgba(59,130,246,0.10);">
                             {{ $doc->doc_type === 'engineering' ? 'Engineering' : 'Best Practice' }}
                         </span>
-                        <span class="text-gray-400 text-xs">#{{ $doc->id }}</span>
+                        <span class="text-black text-xs">#{{ $doc->id }}</span>
                     </div>
-                    <h3 class="text-2xl font-bold text-blue-900 group-hover:text-blue-700 transition">{{ $doc->title ?? $doc->project_name }}</h3>
-                    <div class="text-gray-500 text-sm mt-1 line-clamp-2">
+                    <h3 class="text-2xl font-bold text-black group-hover:text-gray-700 transition">{{ $doc->title ?? $doc->project_name }}</h3>
+                    <div class="text-black text-sm mt-1 line-clamp-2">
                         {{ $doc->purpose ?? $doc->project_overview ?? $doc->scope ?? $doc->business_goals ?? $doc->description ?? '' }}
                     </div>
-                    <div class="text-gray-400 text-xs mt-2">Created: {{ $doc->created_at ? $doc->created_at->format('Y-m-d') : '' }}</div>
+                    <div class="text-black text-xs mt-2">Created: {{ $doc->created_at ? $doc->created_at->format('Y-m-d') : '' }}</div>
                 </div>
                 <div class="flex gap-3 mt-2 md:mt-0">
                     <a href="{{ route('docs.show', ['id' => $doc->id, 'type' => $doc->doc_type]) }}" class="docs-btn border-2 border-black font-bold text-lg px-6 py-2 flex items-center gap-2 bg-white hover:bg-gray-100 shadow">
@@ -45,7 +45,7 @@
                 </div>
             </div>
         @empty
-            <div class="text-gray-400 text-center py-10">No documentations yet.</div>
+            <div class="text-black text-center py-10">No documentations yet.</div>
         @endforelse
     </div>
 </div>

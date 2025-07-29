@@ -69,7 +69,48 @@ class User extends Authenticatable
      */
     public function isAdmin()
     {
-        return $this->role === 'owner';
+        return $this->isGlobalFounder() || $this->isPersonalFounder();
+    }
+
+    /**
+     * تحقق من كون المستخدم المؤسس العالمي (أول مستخدم في النظام)
+     */
+    public function isGlobalFounder()
+    {
+        $firstUser = static::orderBy('id')->first();
+        return $firstUser && $this->id === $firstUser->id;
+    }
+
+    /**
+     * تحقق من كون المستخدم مؤسس شخصي (في قاعدة البيانات الخاصة به)
+     */
+    public function isPersonalFounder()
+    {
+        return true; // كل مستخدم مؤسس في مساحته الشخصية
+    }
+
+    /**
+     * تحقق من كون المستخدم مطور
+     */
+    public function isDeveloper()
+    {
+        return true; // كل مستخدم له صلاحيات مطور في مساحته الشخصية
+    }
+
+    /**
+     * تحقق من إمكانية إنشاء المحتوى
+     */
+    public function canCreateContent()
+    {
+        return true; // كل مستخدم يمكنه إنشاء المحتوى في مساحته الشخصية
+    }
+
+    /**
+     * تحقق من إمكانية إدارة المستخدمين (للمؤسس العالمي فقط)
+     */
+    public function canManageUsers()
+    {
+        return $this->isGlobalFounder();
     }
 
     /**
