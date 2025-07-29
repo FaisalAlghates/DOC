@@ -56,12 +56,12 @@
                         <div class="group relative">
                             <div class="absolute inset-0 bg-gradient-to-r from-emerald-400/20 to-green-600/20 rounded-2xl blur-lg group-hover:blur-xl transition-all"></div>
                             <div class="relative bg-white/90 backdrop-blur-xl rounded-2xl p-6 border border-gray-200 text-center">
-                                <div class="text-4xl font-black text-emerald-600 mb-2">{{ $histories->count() }}</div>
+                                <div class="text-4xl font-black text-emerald-600 mb-2 total-events-count">{{ $histories->count() }}</div>
                                 <div class="text-sm text-gray-700 font-semibold uppercase tracking-wider">Total Events</div>
                             </div>
                         </div>
                         
-                        <div class="group relative">
+                        {{-- <div class="group relative">
                             <div class="absolute inset-0 bg-gradient-to-r from-blue-400/20 to-indigo-600/20 rounded-2xl blur-lg group-hover:blur-xl transition-all"></div>
                             <div class="relative bg-white/90 backdrop-blur-xl rounded-2xl p-6 border border-gray-200 text-center">
                                 <div class="text-4xl font-black text-blue-600 mb-2">{{ $histories->where('action', 'Created')->count() }}</div>
@@ -74,6 +74,59 @@
                             <div class="relative bg-white/90 backdrop-blur-xl rounded-2xl p-6 border border-gray-200 text-center">
                                 <div class="text-4xl font-black text-amber-600 mb-2">{{ $histories->where('action', 'Updated')->count() }}</div>
                                 <div class="text-sm text-gray-700 font-semibold uppercase tracking-wider">Updated</div>
+                            </div> --}}
+                        </div>
+                        
+                        <!-- Advanced Time Filter -->
+                        <div class="group relative">
+                            <div class="absolute inset-0 bg-gradient-to-r from-purple-400/20 to-pink-600/20 rounded-2xl blur-lg group-hover:blur-xl transition-all"></div>
+                            <div class="relative bg-white/90 backdrop-blur-xl rounded-2xl p-6 border border-gray-200">
+                                <div class="flex items-center space-x-3 mb-4">
+                                    <div class="w-8 h-8 bg-gradient-to-br from-purple-500 to-pink-600 rounded-lg flex items-center justify-center shadow-lg">
+                                        <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"></path>
+                                        </svg>
+                                    </div>
+                                    <span class="text-lg font-bold text-black">Time Filter</span>
+                                </div>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                                    <button onclick="filterByTime('1h')" class="filter-btn bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-white px-4 py-3 rounded-xl font-semibold text-sm shadow-lg hover:shadow-xl transition-all duration-300 flex items-center space-x-2">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                        </svg>
+                                        <span>Last Hour</span>
+                                    </button>
+                                    <button onclick="filterByTime('6h')" class="filter-btn bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-white px-4 py-3 rounded-xl font-semibold text-sm shadow-lg hover:shadow-xl transition-all duration-300 flex items-center space-x-2">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                        </svg>
+                                        <span>Last 6 Hours</span>
+                                    </button>
+                                    <button onclick="filterByTime('1d')" class="filter-btn bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white px-4 py-3 rounded-xl font-semibold text-sm shadow-lg hover:shadow-xl transition-all duration-300 flex items-center space-x-2">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                                        </svg>
+                                        <span>Last Day</span>
+                                    </button>
+                                    <button onclick="filterByTime('1w')" class="filter-btn bg-gradient-to-r from-purple-500 to-indigo-500 hover:from-purple-600 hover:to-indigo-600 text-white px-4 py-3 rounded-xl font-semibold text-sm shadow-lg hover:shadow-xl transition-all duration-300 flex items-center space-x-2">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                                        </svg>
+                                        <span>Last Week</span>
+                                    </button>
+                                    <button onclick="filterByTime('1m')" class="filter-btn bg-gradient-to-r from-red-500 to-pink-500 hover:from-red-600 hover:to-pink-600 text-white px-4 py-3 rounded-xl font-semibold text-sm shadow-lg hover:shadow-xl transition-all duration-300 flex items-center space-x-2">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                                        </svg>
+                                        <span>Last Month</span>
+                                    </button>
+                                    <button onclick="filterByTime('all')" class="filter-btn bg-gradient-to-r from-gray-500 to-slate-500 hover:from-gray-600 hover:to-slate-600 text-white px-4 py-3 rounded-xl font-semibold text-sm shadow-lg hover:shadow-xl transition-all duration-300 flex items-center space-x-2 active">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+                                        </svg>
+                                        <span>All Activities</span>
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -82,14 +135,14 @@
         </div>
 
         <!-- Timeline Container -->
-        <div class="relative">
+        <div class="relative" id="timeline-container">
             <!-- Central Timeline Line -->
             <div class="absolute left-8 top-0 bottom-0 w-1 bg-gradient-to-b from-cyan-400 via-blue-500 to-purple-600 rounded-full shadow-lg"></div>
             
             <!-- Activity Cards -->
             <div class="space-y-8">
                 @forelse($histories as $index => $history)
-                    <div class="relative group">
+                    <div class="relative group activity-card" data-date="{{ $history->created_at->toISOString() }}">
                         <!-- Timeline Node -->
                         <div class="absolute left-6 w-5 h-5 bg-gradient-to-br 
                             @if($history->action == 'Created') from-emerald-400 to-green-600
@@ -263,7 +316,7 @@
                                         <!-- Timeline Number -->
                                         <div class="flex-shrink-0 text-right">
                                             <div class="w-12 h-12 bg-white rounded-xl flex items-center justify-center border-2 border-gray-300 shadow-lg">
-                                                <span class="text-lg font-bold text-black">{{ $index + 1 }}</span>
+                                                <span class="text-lg font-bold text-black timeline-number">{{ $index + 1 }}</span>
                                             </div>
                                             <div class="text-xs text-gray-600 mt-2 font-medium">{{ $history->created_at->diffForHumans() }}</div>
                                         </div>
@@ -274,7 +327,7 @@
                     </div>
                 @empty
                     <!-- Premium Empty State -->
-                    <div class="relative text-center py-32">
+                    <div class="relative text-center py-32" id="empty-state">
                         <div class="relative inline-block">
                             <div class="w-48 h-48 bg-gradient-to-br from-gray-300 to-gray-500 rounded-full flex items-center justify-center mx-auto mb-12 shadow-2xl">
                                 <div class="absolute inset-4 bg-gradient-to-br from-white/30 to-transparent rounded-full"></div>
@@ -360,5 +413,152 @@
     
     /* Delay Animations */
     .delay-300 { animation-delay: 300ms; }
+    
+    /* Filter Button Styles */
+    .filter-btn.active {
+        transform: scale(1.05);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        position: relative;
+    }
+    
+    .filter-btn.active::after {
+        content: '';
+        position: absolute;
+        inset: -2px;
+        background: linear-gradient(45deg, #3b82f6, #8b5cf6, #06b6d4, #10b981);
+        border-radius: inherit;
+        z-index: -1;
+        animation: gradientRotate 3s linear infinite;
+    }
+    
+    @keyframes gradientRotate {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+    
+    .fade-out {
+        opacity: 0.3;
+        transform: scale(0.95);
+        transition: all 0.3s ease;
+    }
+    
+    .fade-in {
+        opacity: 1;
+        transform: scale(1);
+        transition: all 0.3s ease;
+    }
 </style>
+
+<script>
+let currentFilter = 'all';
+
+function filterByTime(timeRange) {
+    // Update active button
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.classList.remove('active');
+    });
+    event.target.closest('.filter-btn').classList.add('active');
+    
+    currentFilter = timeRange;
+    
+    // Get current date
+    const now = new Date();
+    let cutoffDate;
+    
+    // Calculate cutoff date based on filter
+    switch(timeRange) {
+        case '1h':
+            cutoffDate = new Date(now - 60 * 60 * 1000); // 1 hour ago
+            break;
+        case '6h':
+            cutoffDate = new Date(now - 6 * 60 * 60 * 1000); // 6 hours ago
+            break;
+        case '1d':
+            cutoffDate = new Date(now - 24 * 60 * 60 * 1000); // 1 day ago
+            break;
+        case '1w':
+            cutoffDate = new Date(now - 7 * 24 * 60 * 60 * 1000); // 1 week ago
+            break;
+        case '1m':
+            cutoffDate = new Date(now - 30 * 24 * 60 * 60 * 1000); // 1 month ago
+            break;
+        case 'all':
+        default:
+            cutoffDate = null;
+            break;
+    }
+    
+    // Filter activities
+    const activityCards = document.querySelectorAll('.activity-card');
+    let visibleCount = 0;
+    
+    activityCards.forEach((card, index) => {
+        const cardDate = new Date(card.dataset.date);
+        const shouldShow = !cutoffDate || cardDate >= cutoffDate;
+        
+        if (shouldShow) {
+            card.style.display = 'block';
+            card.classList.remove('fade-out');
+            card.classList.add('fade-in');
+            
+            // Update timeline number for visible cards
+            const timelineNumber = card.querySelector('.timeline-number');
+            if (timelineNumber) {
+                timelineNumber.textContent = ++visibleCount;
+            }
+        } else {
+            card.classList.add('fade-out');
+            setTimeout(() => {
+                if (card.classList.contains('fade-out')) {
+                    card.style.display = 'none';
+                }
+            }, 300);
+        }
+    });
+    
+    // Update total count
+    updateTotalCount(visibleCount);
+    
+    // Show/hide empty state
+    const emptyState = document.getElementById('empty-state');
+    const timelineContainer = document.getElementById('timeline-container');
+    
+    if (visibleCount === 0) {
+        timelineContainer.style.display = 'none';
+        emptyState.style.display = 'block';
+        emptyState.querySelector('h3').textContent = getEmptyStateMessage(timeRange);
+    } else {
+        timelineContainer.style.display = 'block';
+        emptyState.style.display = 'none';
+    }
+}
+
+function updateTotalCount(count) {
+    const totalEventElement = document.querySelector('.total-events-count');
+    if (totalEventElement) {
+        totalEventElement.textContent = count;
+    }
+}
+
+function getEmptyStateMessage(timeRange) {
+    const messages = {
+        '1h': 'No activities in the last hour',
+        '6h': 'No activities in the last 6 hours',
+        '1d': 'No activities in the last day',
+        '1w': 'No activities in the last week',
+        '1m': 'No activities in the last month',
+        'all': 'No activities yet'
+    };
+    return messages[timeRange] || messages['all'];
+}
+
+// Initialize on page load
+document.addEventListener('DOMContentLoaded', function() {
+    // Set default active filter
+    const defaultBtn = document.querySelector('[onclick="filterByTime(\'all\')"]');
+    if (defaultBtn) {
+        defaultBtn.classList.add('active');
+    }
+});
+</script>
 @endsection
