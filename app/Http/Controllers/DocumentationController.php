@@ -141,9 +141,9 @@ class DocumentationController extends Controller
     {
         $type = $request->query('type');
         if ($type === 'engineering') {
-            $doc = \App\Models\EngineeringDocumentation::findOrFail($id);
+            $doc = \App\Models\EngineeringDocumentation::with('documentation.user')->findOrFail($id);
         } elseif ($type === 'bestpractice') {
-            $doc = \App\Models\BestPracticeDocumentation::findOrFail($id);
+            $doc = \App\Models\BestPracticeDocumentation::with('documentation.user')->findOrFail($id);
         } else {
             abort(404, 'نوع التوثيق غير معروف');
         }
@@ -152,32 +152,78 @@ class DocumentationController extends Controller
 
     public function update(Request $request, $id)
     {
-        $docMain = \App\Models\Documentation::findOrFail($id);
-        // جميع المستخدمين لهم كامل الصلاحيات
-        $user = Auth::user();
-        
-        $data = $request->all();
-        // تحديث الجدول الرئيسي
-        $docMain->update([
-            'title' => $data['title'] ?? $docMain->title,
-            'description' => $data['purpose'] ?? $docMain->description,
-        ]);
-        // تحديث الجدول الفرعي حسب النوع
-        if ($docMain->doc_type === 'engineering') {
-            $doc = \App\Models\EngineeringDocumentation::where('documentation_id', $docMain->id)->first();
-            $doc->update($data);
-        } elseif ($docMain->doc_type === 'bestpractice') {
-            $doc = \App\Models\BestPracticeDocumentation::where('documentation_id', $docMain->id)->first();
-            $doc->update($data);
+        try {
+            // $id هنا يشير إلى documentation_id (الجدول الرئيسي)
+            $docMain = \App\Models\Documentation::findOrFail($id);
+            $user = Auth::user();
+            
+            $data = $request->all();
+            
+            // تحديث الجدول الرئيسي
+            $titleField = '';
+            if ($docMain->doc_type === 'engineering') {
+                $titleField = $data['title'] ?? $docMain->title;
+            } elseif ($docMain->doc_type === 'bestpractice') {
+                $titleField = $data['project_name'] ?? $data['title'] ?? $docMain->title;
+            }
+            
+            $docMain->update([
+                'title' => $titleField,
+                'updated_at' => now(),
+            ]);
+            
+            // تحديث الجدول الفرعي حسب النوع
+            $subDocId = null;
+            if ($docMain->doc_type === 'engineering') {
+                $doc = \App\Models\EngineeringDocumentation::where('documentation_id', $docMain->id)->first();
+                if ($doc) {
+                    // فقط الحقول الخاصة بـ Engineering Documentation
+                    $engineeringFields = [
+                        'purpose', 'scope', 'definitions', 'overall_description', 
+                        'product_perspective', 'user_classes', 'operating_environment',
+                        'constraints', 'assumptions', 'functional_requirements',
+                        'nonfunctional_requirements', 'use_cases', 'data_model',
+                        'interface_requirements', 'appendices', 'compliance_report',
+                        'database_tables', 'ui_ux', 'conclusion', 'content'
+                    ];
+                    
+                    $engineeringData = collect($data)->only($engineeringFields)->toArray();
+                    $doc->update($engineeringData);
+                    $subDocId = $doc->id;
+                }
+            } elseif ($docMain->doc_type === 'bestpractice') {
+                $doc = \App\Models\BestPracticeDocumentation::where('documentation_id', $docMain->id)->first();
+                if ($doc) {
+                    // فقط الحقول الخاصة بـ Best Practice Documentation
+                    $bestPracticeFields = [
+                        'project_overview', 'stakeholders', 'business_goals',
+                        'deliverables', 'timeline', 'architecture', 
+                        'risks', 'deployment', 'lessons'
+                    ];
+                    
+                    $bestPracticeData = collect($data)->only($bestPracticeFields)->toArray();
+                    $doc->update($bestPracticeData);
+                    $subDocId = $doc->id;
+                }
+            }
+            
+            // سجل العملية في history
+            DocumentHistory::create([
+                'documentation_id' => $docMain->id,
+                'user_id' => $user->id,
+                'action' => 'update',
+                'changes' => json_encode(['updated_at' => now()]),
+            ]);
+            
+            // استخدام ID السجل الفرعي في التوجيه
+            return redirect()->route('docs.show', ['id' => $subDocId, 'type' => $docMain->doc_type])
+                             ->with('message', 'تم حفظ التعديلات بنجاح! ✅');
+                             
+        } catch (\Exception $e) {
+            return redirect()->back()
+                           ->withInput()
+                           ->with('error', 'حدث خطأ أثناء الحفظ: ' . $e->getMessage());
         }
-        // سجل العملية في history
-        DocumentHistory::create([
-            'documentation_id' => $docMain->id,
-            'user_id' => $user->id,
-            'action' => 'update',
-            'changes' => json_encode($data),
-        ]);
-        return redirect()->route('docs.index')->with('message', 'تم تحديث التوثيق بنجاح.');
     }
 
 
