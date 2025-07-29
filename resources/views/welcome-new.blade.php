@@ -100,91 +100,91 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
                         </svg>
                     </div>
-                    <h2 class="text-4xl md:text-5xl font-bold text-black dark:text-white mb-4">Future Vision</h2>
-                    <p class="text-xl text-black dark:text-white max-w-2xl mx-auto">Revolutionary features that redefine what's possible in documentation technology</p>
+                    <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">Future Vision</h2>
+                    <p class="text-xl text-gray-600 max-w-2xl mx-auto">Revolutionary features that redefine what's possible in documentation technology</p>
                 </div>
 
                 <!-- Features grid -->
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
                     <!-- Feature 1 -->
-                    <div class="group relative bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-xl hover:shadow-2xl transition-all duration-300 border border-gray-100 dark:border-gray-700 hover:border-blue-200 dark:hover:border-blue-400">
+                    <div class="group relative bg-white rounded-2xl p-8 shadow-xl hover:shadow-2xl transition-all duration-300 border border-gray-100 hover:border-blue-200">
                         <div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
                             <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
                             </svg>
                         </div>
-                        <h3 class="text-xl font-bold text-black dark:text-white mb-4">Quantum Speed</h3>
-                        <p class="text-black dark:text-white mb-6 leading-relaxed">Experience instantaneous documentation creation with our next-generation processing engine.</p>
+                        <h3 class="text-xl font-bold text-gray-900 mb-4">Quantum Speed</h3>
+                        <p class="text-gray-600 mb-6 leading-relaxed">Experience instantaneous documentation creation with our next-generation processing engine.</p>
                         <button class="w-full py-3 px-4 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold transition-colors duration-200">
                             Learn More
                         </button>
                     </div>
 
                     <!-- Feature 2 -->
-                    <div class="group relative bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-xl hover:shadow-2xl transition-all duration-300 border border-gray-100 dark:border-gray-700 hover:border-purple-200 dark:hover:border-purple-400">
+                    <div class="group relative bg-white rounded-2xl p-8 shadow-xl hover:shadow-2xl transition-all duration-300 border border-gray-100 hover:border-purple-200">
                         <div class="w-16 h-16 bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
                             <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
                             </svg>
                         </div>
-                        <h3 class="text-xl font-bold text-black dark:text-white mb-4">Soul Connection</h3>
-                        <p class="text-black dark:text-white mb-6 leading-relaxed">Intuitive design that understands your workflow and adapts to your creative process.</p>
+                        <h3 class="text-xl font-bold text-gray-900 mb-4">Soul Connection</h3>
+                        <p class="text-gray-600 mb-6 leading-relaxed">Intuitive design that understands your workflow and adapts to your creative process.</p>
                         <button class="w-full py-3 px-4 bg-purple-600 hover:bg-purple-700 text-white rounded-lg font-semibold transition-colors duration-200">
                             Explore
                         </button>
                     </div>
 
                     <!-- Feature 3 -->
-                    <div class="group relative bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-xl hover:shadow-2xl transition-all duration-300 border border-gray-100 dark:border-gray-700 hover:border-cyan-200 dark:hover:border-cyan-400">
+                    <div class="group relative bg-white rounded-2xl p-8 shadow-xl hover:shadow-2xl transition-all duration-300 border border-gray-100 hover:border-cyan-200">
                         <div class="w-16 h-16 bg-gradient-to-br from-cyan-500 to-cyan-600 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
                             <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
                             </svg>
                         </div>
-                        <h3 class="text-xl font-bold text-black dark:text-white mb-4">AI Enhanced</h3>
-                        <p class="text-black dark:text-white mb-6 leading-relaxed">Revolutionary features that redefine what's possible in documentation technology.</p>
+                        <h3 class="text-xl font-bold text-gray-900 mb-4">AI Enhanced</h3>
+                        <p class="text-gray-600 mb-6 leading-relaxed">Revolutionary features that redefine what's possible in documentation technology.</p>
                         <button class="w-full py-3 px-4 bg-cyan-600 hover:bg-cyan-700 text-white rounded-lg font-semibold transition-colors duration-200">
                             Discover
                         </button>
                     </div>
 
                     <!-- Feature 4 -->
-                    <div class="group relative bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-xl hover:shadow-2xl transition-all duration-300 border border-gray-100 dark:border-gray-700 hover:border-green-200 dark:hover:border-green-400">
+                    <div class="group relative bg-white rounded-2xl p-8 shadow-xl hover:shadow-2xl transition-all duration-300 border border-gray-100 hover:border-green-200">
                         <div class="w-16 h-16 bg-gradient-to-br from-green-500 to-green-600 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
                             <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
                             </svg>
                         </div>
-                        <h3 class="text-xl font-bold text-black dark:text-white mb-4">Secure Vault</h3>
-                        <p class="text-black dark:text-white mb-6 leading-relaxed">Enterprise-grade security with end-to-end encryption for your sensitive documentation.</p>
+                        <h3 class="text-xl font-bold text-gray-900 mb-4">Secure Vault</h3>
+                        <p class="text-gray-600 mb-6 leading-relaxed">Enterprise-grade security with end-to-end encryption for your sensitive documentation.</p>
                         <button class="w-full py-3 px-4 bg-green-600 hover:bg-green-700 text-white rounded-lg font-semibold transition-colors duration-200">
                             Secure
                         </button>
                     </div>
 
                     <!-- Feature 5 -->
-                    <div class="group relative bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-xl hover:shadow-2xl transition-all duration-300 border border-gray-100 dark:border-gray-700 hover:border-yellow-200 dark:hover:border-yellow-400">
+                    <div class="group relative bg-white rounded-2xl p-8 shadow-xl hover:shadow-2xl transition-all duration-300 border border-gray-100 hover:border-yellow-200">
                         <div class="w-16 h-16 bg-gradient-to-br from-yellow-500 to-yellow-600 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
                             <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
                             </svg>
                         </div>
-                        <h3 class="text-xl font-bold text-black dark:text-white mb-4">Smart Analytics</h3>
-                        <p class="text-black dark:text-white mb-6 leading-relaxed">Advanced insights and analytics to optimize your documentation performance.</p>
+                        <h3 class="text-xl font-bold text-gray-900 mb-4">Smart Analytics</h3>
+                        <p class="text-gray-600 mb-6 leading-relaxed">Advanced insights and analytics to optimize your documentation performance.</p>
                         <button class="w-full py-3 px-4 bg-yellow-600 hover:bg-yellow-700 text-white rounded-lg font-semibold transition-colors duration-200">
                             Analyze
                         </button>
                     </div>
 
                     <!-- Feature 6 -->
-                    <div class="group relative bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-xl hover:shadow-2xl transition-all duration-300 border border-gray-100 dark:border-gray-700 hover:border-indigo-200 dark:hover:border-indigo-400">
+                    <div class="group relative bg-white rounded-2xl p-8 shadow-xl hover:shadow-2xl transition-all duration-300 border border-gray-100 hover:border-indigo-200">
                         <div class="w-16 h-16 bg-gradient-to-br from-indigo-500 to-indigo-600 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
                             <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17v4a2 2 0 002 2h4M3 5v6h4"></path>
                             </svg>
                         </div>
-                        <h3 class="text-xl font-bold text-black dark:text-white mb-4">Cloud Native</h3>
-                        <p class="text-black dark:text-white mb-6 leading-relaxed">Built for the cloud with seamless collaboration and real-time synchronization.</p>
+                        <h3 class="text-xl font-bold text-gray-900 mb-4">Cloud Native</h3>
+                        <p class="text-gray-600 mb-6 leading-relaxed">Built for the cloud with seamless collaboration and real-time synchronization.</p>
                         <button class="w-full py-3 px-4 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-semibold transition-colors duration-200">
                             Connect
                         </button>
@@ -193,28 +193,28 @@
             </div>
 
             <!-- Statistics section -->
-            <div class="bg-white dark:bg-gray-800 rounded-3xl shadow-2xl p-12 mb-24 border border-gray-100 dark:border-gray-700">
+            <div class="bg-white rounded-3xl shadow-2xl p-12 mb-24 border border-gray-100">
                 <div class="text-center mb-12">
-                    <h2 class="text-3xl md:text-4xl font-bold text-black dark:text-white mb-4">Trusted Worldwide</h2>
-                    <p class="text-xl text-black dark:text-white">Join thousands of users who have transformed their documentation</p>
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Trusted Worldwide</h2>
+                    <p class="text-xl text-gray-600">Join thousands of users who have transformed their documentation</p>
                 </div>
                 
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
                     <div class="text-center">
                         <div class="text-4xl md:text-5xl font-bold text-blue-600 mb-2">50K+</div>
-                        <div class="text-black dark:text-white">Active Users</div>
+                        <div class="text-gray-600">Active Users</div>
                     </div>
                     <div class="text-center">
                         <div class="text-4xl md:text-5xl font-bold text-purple-600 mb-2">1M+</div>
-                        <div class="text-black dark:text-white">Documents Created</div>
+                        <div class="text-gray-600">Documents Created</div>
                     </div>
                     <div class="text-center">
                         <div class="text-4xl md:text-5xl font-bold text-cyan-600 mb-2">99.9%</div>
-                        <div class="text-black dark:text-white">Uptime</div>
+                        <div class="text-gray-600">Uptime</div>
                     </div>
                     <div class="text-center">
                         <div class="text-4xl md:text-5xl font-bold text-green-600 mb-2">24/7</div>
-                        <div class="text-black dark:text-white">Support</div>
+                        <div class="text-gray-600">Support</div>
                     </div>
                 </div>
             </div>
@@ -261,7 +261,7 @@
 
         <!-- Footer -->
         <footer class="text-center mt-24 pb-12">
-            <div class="text-black dark:text-white text-sm">
+            <div class="text-gray-600 text-sm">
                 © 2024 DHUP Documentation Universe. All rights reserved.
             </div>
         </footer>
@@ -499,7 +499,6 @@ document.addEventListener('DOMContentLoaded', function() {
     function enableDarkMode() {
         mainContainer.classList.add('dark-mode');
         mainContainer.classList.remove('light-mode');
-        document.documentElement.classList.add('dark');
         
         // Animate icons
         sunIcon.style.transform = 'rotate(-90deg) scale(0)';
@@ -509,7 +508,6 @@ document.addEventListener('DOMContentLoaded', function() {
     function enableLightMode() {
         mainContainer.classList.add('light-mode');
         mainContainer.classList.remove('dark-mode');
-        document.documentElement.classList.remove('dark');
         
         // Animate icons
         sunIcon.style.transform = 'rotate(0deg) scale(1)';
