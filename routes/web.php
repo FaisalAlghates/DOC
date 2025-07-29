@@ -36,6 +36,8 @@ Route::middleware(['auth'])->group(function () {
 
     // صفحة الملف الشخصي (عرض)
     Route::get('/profile/show', [ProfileController::class, 'show'])->name('profile.show');
+    // تغيير كلمة المرور
+    Route::post('/profile/change-password', [ProfileController::class, 'changePassword'])->name('profile.changePassword');
     // إضافة مطور (للمالك فقط)
     Route::post('/profile/add-developer', [ProfileController::class, 'addDeveloper'])->name('profile.addDeveloper');
     // تعديل الملف الشخصي

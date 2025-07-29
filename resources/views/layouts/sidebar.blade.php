@@ -5,12 +5,10 @@
             <svg xmlns='http://www.w3.org/2000/svg' class='w-5 h-5 text-indigo-600 group-hover:text-indigo-800 transition' fill='none' viewBox='0 0 24 24' stroke='currentColor'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2z'/><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M8 5v4m8-4v4'/></svg>
             <span>Dashboard</span>
         </a> --}}
-
-
-        <a href="{{ route('profile.edit') }}" class="sidebar-link group">
-            <svg xmlns='http://www.w3.org/2000/svg' class='w-5 h-5 text-yellow-600 group-hover:text-yellow-800 transition' fill='none' viewBox='0 0 24 24' stroke='currentColor'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M5.121 17.804A13.937 13.937 0 0112 15c2.485 0 4.797.657 6.879 1.804M15 11a3 3 0 11-6 0 3 3 0 016 0z'/></svg>
-            <span>Profile</span>
-        </a>
+        
+        <a href="{{ route('docs.index') }}" class="sidebar-link group">
+            <svg xmlns='http://www.w3.org/2000/svg' class='w-5 h-5 text-blue-600 group-hover:text-blue-800 transition' fill='none' viewBox='0 0 24 24' stroke='currentColor'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z'></path></svg>
+            <span>Documentation</span>
 
 
         {{-- <a href="{{ route('docs.index') }}" class="sidebar-link group">
