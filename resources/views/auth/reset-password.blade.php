@@ -7,19 +7,22 @@
         <div class="text-center mb-8">
             <div class="mx-auto w-16 h-16 bg-blue-600 rounded-xl flex items-center justify-center mb-4 shadow-lg hover:shadow-xl transition-shadow duration-300">
                 <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"></path>
                 </svg>
             </div>
-            <h2 class="text-3xl font-bold text-gray-900 mb-2">Welcome Back</h2>
-            <p class="text-gray-600">Sign in to your account</p>
+            <h2 class="text-3xl font-bold text-gray-900 mb-2">Reset Password</h2>
+            <p class="text-gray-600">Enter your new password below</p>
         </div>
 
-        <!-- Login Form -->
+        <!-- Reset Password Form -->
         <div class="bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
-            <form method="POST" action="{{ url('/login') }}" class="space-y-6">
+            <form method="POST" action="{{ route('password.update') }}" class="space-y-6">
                 @csrf
                 
-                <!-- Email Field -->
+                <!-- Hidden Token -->
+                <input type="hidden" name="token" value="{{ $token }}">
+                
+                <!-- Email Field (readonly) -->
                 <div class="space-y-2">
                     <label for="email" class="block text-sm font-semibold text-gray-900">
                         Email Address
@@ -33,10 +36,10 @@
                         <input id="email" 
                                type="email" 
                                name="email" 
-                               value="{{ old('email') }}" 
+                               value="{{ $email ?? old('email') }}" 
                                required 
-                               autofocus 
-                               class="block w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 text-gray-900 placeholder-gray-500"
+                               readonly
+                               class="block w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg bg-gray-50 text-gray-900 placeholder-gray-500"
                                placeholder="Enter your email address">
                     </div>
                     @error('email')
@@ -52,7 +55,7 @@
                 <!-- Password Field -->
                 <div class="space-y-2">
                     <label for="password" class="block text-sm font-semibold text-gray-900">
-                        Password
+                        New Password
                     </label>
                     <div class="relative">
                         <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -65,7 +68,7 @@
                                name="password" 
                                required 
                                class="block w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 text-gray-900 placeholder-gray-500"
-                               placeholder="Enter your password">
+                               placeholder="Enter your new password">
                     </div>
                     @error('password')
                         <p class="text-sm text-red-600 flex items-center">
@@ -77,17 +80,43 @@
                     @enderror
                 </div>
 
-                <!-- Remember Me and Forgot Password -->
-                <div class="flex items-center justify-between">
-                    <label class="flex items-center">
-                        <input type="checkbox" 
-                               name="remember" 
-                               class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
-                        <span class="ml-2 text-sm text-gray-900">Remember me</span>
+                <!-- Confirm Password Field -->
+                <div class="space-y-2">
+                    <label for="password_confirmation" class="block text-sm font-semibold text-gray-900">
+                        Confirm New Password
                     </label>
-                    <a href="{{ route('password.request') }}" class="text-sm text-blue-600 hover:text-blue-800 font-medium transition-colors duration-200">
-                        Forgot password?
-                    </a>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                            </svg>
+                        </div>
+                        <input id="password_confirmation" 
+                               type="password" 
+                               name="password_confirmation" 
+                               required 
+                               class="block w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 text-gray-900 placeholder-gray-500"
+                               placeholder="Confirm your new password">
+                    </div>
+                </div>
+
+                <!-- Password Requirements -->
+                <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                    <h4 class="text-sm font-semibold text-blue-900 mb-2">Password Requirements:</h4>
+                    <ul class="text-xs text-blue-800 space-y-1">
+                        <li class="flex items-center">
+                            <svg class="w-3 h-3 text-blue-600 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                            </svg>
+                            At least 8 characters long
+                        </li>
+                        <li class="flex items-center">
+                            <svg class="w-3 h-3 text-blue-600 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                            </svg>
+                            Must match the confirmation password
+                        </li>
+                    </ul>
                 </div>
 
                 <!-- Submit Button -->
@@ -95,18 +124,18 @@
                     <button type="submit" 
                             class="w-full flex justify-center items-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-200 hover:shadow-lg">
                         <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                         </svg>
-                        Sign In
+                        Reset Password
                     </button>
                 </div>
 
-                <!-- Register Link -->
+                <!-- Back to Login Link -->
                 <div class="text-center">
                     <p class="text-sm text-gray-600">
-                        Don't have an account?
-                        <a href="{{ route('register') }}" class="font-medium text-blue-600 hover:text-blue-800 transition-colors duration-200">
-                            Create new account
+                        Remember your password?
+                        <a href="{{ route('login') }}" class="font-medium text-blue-600 hover:text-blue-800 transition-colors duration-200">
+                            Back to Sign In
                         </a>
                     </p>
                 </div>
@@ -181,6 +210,17 @@ input, button, a {
         transform: rotate(360deg);
     }
 }
+
+/* Password strength indicator */
+.password-strength {
+    height: 4px;
+    border-radius: 2px;
+    transition: all 0.3s ease;
+}
+
+.password-weak { background-color: #ef4444; }
+.password-medium { background-color: #f59e0b; }
+.password-strong { background-color: #10b981; }
 </style>
 
 <script>
@@ -190,23 +230,23 @@ document.addEventListener('DOMContentLoaded', function() {
     const originalBtnText = submitBtn.innerHTML;
     
     // Add form validation
-    const emailInput = document.getElementById('email');
     const passwordInput = document.getElementById('password');
+    const confirmPasswordInput = document.getElementById('password_confirmation');
     
     // Real-time validation
-    emailInput.addEventListener('input', function() {
-        validateEmail(this);
-    });
-    
     passwordInput.addEventListener('input', function() {
         validatePassword(this);
+        checkPasswordMatch();
     });
     
-    function validateEmail(input) {
-        const email = input.value;
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    confirmPasswordInput.addEventListener('input', function() {
+        checkPasswordMatch();
+    });
+    
+    function validatePassword(input) {
+        const password = input.value;
         
-        if (email && !emailRegex.test(email)) {
+        if (password && password.length < 8) {
             input.classList.add('border-red-500');
             input.classList.remove('border-gray-300');
         } else {
@@ -215,15 +255,16 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
-    function validatePassword(input) {
-        const password = input.value;
+    function checkPasswordMatch() {
+        const password = passwordInput.value;
+        const confirmPassword = confirmPasswordInput.value;
         
-        if (password && password.length < 6) {
-            input.classList.add('border-red-500');
-            input.classList.remove('border-gray-300');
+        if (confirmPassword && password !== confirmPassword) {
+            confirmPasswordInput.classList.add('border-red-500');
+            confirmPasswordInput.classList.remove('border-gray-300');
         } else {
-            input.classList.remove('border-red-500');
-            input.classList.add('border-gray-300');
+            confirmPasswordInput.classList.remove('border-red-500');
+            confirmPasswordInput.classList.add('border-gray-300');
         }
     }
     
@@ -234,7 +275,7 @@ document.addEventListener('DOMContentLoaded', function() {
         submitBtn.disabled = true;
         
         // Basic validation
-        if (!emailInput.value || !passwordInput.value) {
+        if (!passwordInput.value || !confirmPasswordInput.value) {
             e.preventDefault();
             submitBtn.classList.remove('loading');
             submitBtn.disabled = false;
@@ -244,12 +285,32 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
         
+        if (passwordInput.value !== confirmPasswordInput.value) {
+            e.preventDefault();
+            submitBtn.classList.remove('loading');
+            submitBtn.disabled = false;
+            
+            // Show error message
+            alert('Passwords do not match');
+            return;
+        }
+        
+        if (passwordInput.value.length < 8) {
+            e.preventDefault();
+            submitBtn.classList.remove('loading');
+            submitBtn.disabled = false;
+            
+            // Show error message
+            alert('Password must be at least 8 characters long');
+            return;
+        }
+        
         // If validation passes, form will submit normally
         // Loading state will be cleared by page navigation
     });
     
     // Enhanced input interactions
-    const inputs = document.querySelectorAll('input[type="email"], input[type="password"]');
+    const inputs = document.querySelectorAll('input[type="password"]');
     inputs.forEach(input => {
         input.addEventListener('focus', function() {
             this.parentElement.classList.add('ring-2', 'ring-blue-500');
