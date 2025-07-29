@@ -42,11 +42,17 @@ class UserManagementController extends Controller
             'role' => ['required', 'string', 'in:admin,user'],
         ]);
 
+        // Map application role values to database enum values
+        $roleMapping = [
+            'admin' => 'owner',
+            'user' => 'viewer'
+        ];
+
         User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'role' => $request->role,
+            'role' => $roleMapping[$request->role],
         ]);
 
         return redirect()->route('users.index')->with('success', 'User created successfully!');
@@ -81,10 +87,16 @@ class UserManagementController extends Controller
             'password' => ['nullable', 'confirmed', Rules\Password::defaults()],
         ]);
 
+        // Map application role values to database enum values
+        $roleMapping = [
+            'admin' => 'owner',
+            'user' => 'viewer'
+        ];
+
         $user->update([
             'name' => $request->name,
             'email' => $request->email,
-            'role' => $request->role,
+            'role' => $roleMapping[$request->role],
         ]);
 
         if ($request->filled('password')) {

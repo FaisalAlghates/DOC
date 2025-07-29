@@ -69,6 +69,28 @@ class User extends Authenticatable
      */
     public function isAdmin()
     {
-        return $this->role === 'admin';
+        return $this->role === 'owner';
+    }
+
+    /**
+     * Get the role attribute mapped to application values
+     */
+    public function getRoleAttribute($value)
+    {
+        $roleMapping = [
+            'owner' => 'admin',
+            'developer' => 'admin',
+            'viewer' => 'user'
+        ];
+
+        return $roleMapping[$value] ?? $value;
+    }
+
+    /**
+     * Get the original database role value
+     */
+    public function getDatabaseRole()
+    {
+        return $this->attributes['role'] ?? null;
     }
 }
