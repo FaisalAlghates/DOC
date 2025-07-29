@@ -904,6 +904,80 @@ document.addEventListener('DOMContentLoaded', function() {
         backface-visibility: hidden;
         perspective: 1000px;
     }
+    
+    /* Custom Dropdown Styles */
+    .dropdown-enter {
+        opacity: 0;
+        transform: translateY(-10px) scale(0.95);
+        transition: all 0.2s ease-out;
+    }
+    
+    .dropdown-enter-active {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+    
+    .profile-dropdown {
+        backdrop-filter: blur(20px);
+        background: rgba(255, 255, 255, 0.95);
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    }
+    
+    .profile-dropdown::before {
+        content: '';
+        position: absolute;
+        top: -8px;
+        right: 20px;
+        width: 16px;
+        height: 16px;
+        background: rgba(255, 255, 255, 0.95);
+        transform: rotate(45deg);
+        border-top: 1px solid rgba(0, 0, 0, 0.1);
+        border-left: 1px solid rgba(0, 0, 0, 0.1);
+    }
 </style>
+
+<!-- JavaScript for Enhanced Interactions -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Enhanced dropdown functionality
+    const dropdownTriggers = document.querySelectorAll('.group');
+    
+    dropdownTriggers.forEach(trigger => {
+        const dropdown = trigger.querySelector('[class*="opacity-0"]');
+        
+        if (dropdown) {
+            let hoverTimeout;
+            
+            trigger.addEventListener('mouseenter', function() {
+                clearTimeout(hoverTimeout);
+                dropdown.classList.remove('opacity-0', 'invisible');
+                dropdown.classList.add('opacity-100', 'visible');
+            });
+            
+            trigger.addEventListener('mouseleave', function() {
+                hoverTimeout = setTimeout(() => {
+                    dropdown.classList.add('opacity-0', 'invisible');
+                    dropdown.classList.remove('opacity-100', 'visible');
+                }, 150);
+            });
+        }
+    });
+    
+    // Enhanced profile dropdown
+    const profileButton = document.querySelector('.group button');
+    const profileDropdown = document.querySelector('.group div[class*="absolute"]');
+    
+    if (profileButton && profileDropdown) {
+        profileButton.addEventListener('click', function(e) {
+            e.preventDefault();
+            profileDropdown.classList.toggle('opacity-0');
+            profileDropdown.classList.toggle('opacity-100');
+            profileDropdown.classList.toggle('invisible');
+            profileDropdown.classList.toggle('visible');
+        });
+    }
+});
+</script>
 
 </html>
