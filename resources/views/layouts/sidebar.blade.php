@@ -95,20 +95,7 @@
                 <div class="ml-auto w-2 h-2 bg-rose-400 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></div>
             </a>
 
-            @if(Auth::user()->canManageUsers())
-            <a href="{{ route('users.index') }}" class="sidebar-link group" data-tooltip="Manage system users">
-                <div class="icon-container bg-gradient-to-br from-indigo-500 to-indigo-600">
-                    <svg xmlns='http://www.w3.org/2000/svg' class='w-5 h-5 text-white' fill='none' viewBox='0 0 24 24' stroke='currentColor'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z'/></svg>
-                </div>
-                <span class="link-text">System Users</span>
-                <div class="ml-auto w-2 h-2 bg-indigo-400 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></div>
-            </a>
-            @endif
-        </div>
-
-        <!-- Logout Section -->
-        <div class="pt-8 border-t border-white/10">
-            <form method="POST" action="{{ route('logout') }}">
+            <form method="POST" action="{{ route('logout') }}" class="mt-2">
                 @csrf
                 <button type="submit" class="sidebar-link group w-full logout-btn" data-tooltip="Sign out of your account">
                     <div class="icon-container bg-gradient-to-br from-red-500 to-red-600">
@@ -118,6 +105,16 @@
                     <div class="ml-auto w-2 h-2 bg-red-400 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></div>
                 </button>
             </form>
+
+            @if(Auth::user()->canManageUsers())
+            <a href="{{ route('users.index') }}" class="sidebar-link group" data-tooltip="Manage system users">
+                <div class="icon-container bg-gradient-to-br from-indigo-500 to-indigo-600">
+                    <svg xmlns='http://www.w3.org/2000/svg' class='w-5 h-5 text-white' fill='none' viewBox='0 0 24 24' stroke='currentColor'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z'/></svg>
+                </div>
+                <span class="link-text">System Users</span>
+                <div class="ml-auto w-2 h-2 bg-indigo-400 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></div>
+            </a>
+            @endif
         </div>
     </nav>
     
