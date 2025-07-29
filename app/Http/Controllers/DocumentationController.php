@@ -119,7 +119,7 @@ class DocumentationController extends Controller
             ]);
             return redirect()->route('docs.index')->with('message', 'Best Practice documentation created successfully.');
         }
-        return redirect()->route('docs.index')->with('message', 'لم يتم تحديد نموذج التوثيق.');
+        return redirect()->route('docs.index')->with('message', 'Documentation template not specified.');
     }
 
 
@@ -217,12 +217,12 @@ class DocumentationController extends Controller
             
             // استخدام ID السجل الفرعي في التوجيه
             return redirect()->route('docs.show', ['id' => $subDocId, 'type' => $docMain->doc_type])
-                             ->with('message', 'تم حفظ التعديلات بنجاح! ✅');
+                             ->with('message', 'Changes saved successfully! ✅');
                              
         } catch (\Exception $e) {
             return redirect()->back()
                            ->withInput()
-                           ->with('error', 'حدث خطأ أثناء الحفظ: ' . $e->getMessage());
+                           ->with('error', 'Error occurred while saving: ' . $e->getMessage());
         }
     }
 

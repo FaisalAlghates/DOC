@@ -4,7 +4,7 @@
         @if(!empty($value ?? ''))
             {!! nl2br(e($value ?? '')) !!}
         @else
-            <span class="text-gray-400">لا يوجد محتوى</span>
+            <span class="text-gray-400">No content</span>
         @endif
     </div>
 </div>

@@ -27,7 +27,7 @@
     
     @if ($errors->any())
         <div class="mb-6 p-4 bg-red-100 border border-red-400 text-red-700 rounded-lg">
-            <p class="font-semibold mb-2">يرجى تصحيح الأخطاء التالية:</p>
+            <p class="font-semibold mb-2">Please correct the following errors:</p>
             <ul class="list-disc list-inside">
                 @foreach ($errors->all() as $error)
                     <li>{{ $error }}</li>
@@ -44,35 +44,35 @@
                 <svg xmlns='http://www.w3.org/2000/svg' class='w-10 h-10 text-yellow-400' fill='none' viewBox='0 0 24 24' stroke='currentColor'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M15.232 5.232l3.536 3.536M9 13l6-6m2 2l-6 6m2 2l-6 6m2-2l6-6'/></svg>
             </div>
             <div class="flex-1">
-                <h2 class="text-3xl md:text-4xl font-extrabold text-yellow-700 mb-1">تحرير التوثيق</h2>
-                <p class="text-gray-500 text-base md:text-lg">{{ $doc->documentation->title ?? $doc->title ?? 'عنوان غير محدد' }}</p>
+                <h2 class="text-3xl md:text-4xl font-extrabold text-yellow-700 mb-1">Edit Documentation</h2>
+                <p class="text-gray-500 text-base md:text-lg">{{ $doc->documentation->title ?? $doc->title ?? 'Untitled' }}</p>
             </div>
         </div>
         
-        <!-- معلومات المؤلف والتعديل -->
+        <!-- Author and Modification Info -->
         <div class="mx-6 mb-6 p-4 bg-gray-50 rounded-xl border border-gray-200">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
                 <div class="flex items-center gap-2">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                     </svg>
-                    <span class="font-semibold text-gray-700">أنشأ بواسطة:</span>
-                    <span class="text-gray-600">{{ $doc->documentation->user->name ?? 'غير محدد' }}</span>
+                    <span class="font-semibold text-gray-700">Created by:</span>
+                    <span class="text-gray-600">{{ $doc->documentation->user->name ?? 'Not specified' }}</span>
                 </div>
                 <div class="flex items-center gap-2">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3a2 2 0 012-2h4a2 2 0 012 2v4m-6 4v10m6-10v10m-6-4h6" />
                     </svg>
-                    <span class="font-semibold text-gray-700">تاريخ الإنشاء:</span>
-                    <span class="text-gray-600">{{ $doc->documentation->created_at ? $doc->documentation->created_at->format('Y-m-d H:i') : 'غير محدد' }}</span>
+                    <span class="font-semibold text-gray-700">Creation date:</span>
+                    <span class="text-gray-600">{{ $doc->documentation->created_at ? $doc->documentation->created_at->format('Y-m-d H:i') : 'Not specified' }}</span>
                 </div>
             </div>
         </div>
 
         <!-- Tabs -->
         <div class="flex justify-center gap-4 mb-6">
-            <button type="button" @click="tab = 1" :class="tab == 1 ? 'bg-blue-700 text-white' : 'bg-blue-100 text-blue-700'" class="px-6 py-2 rounded-lg font-bold transition">النموذج الهندسي</button>
-            <button type="button" @click="tab = 2" :class="tab == 2 ? 'bg-green-700 text-white' : 'bg-green-100 text-green-700'" class="px-6 py-2 rounded-lg font-bold transition">نموذج Best Practice</button>
+            <button type="button" @click="tab = 1" :class="tab == 1 ? 'bg-blue-700 text-white' : 'bg-blue-100 text-blue-700'" class="px-6 py-2 rounded-lg font-bold transition">Engineering Model</button>
+            <button type="button" @click="tab = 2" :class="tab == 2 ? 'bg-green-700 text-white' : 'bg-green-100 text-green-700'" class="px-6 py-2 rounded-lg font-bold transition">Best Practice Model</button>
         </div>
 
         <!-- Form -->
@@ -84,7 +84,7 @@
             <div x-show="tab == 1" x-cloak>
                 <!-- Title -->
                 <div class="px-6 mb-6">
-                    <label class="block mb-2 text-lg font-semibold text-blue-700">عنوان التوثيق</label>
+                    <label class="block mb-2 text-lg font-semibold text-blue-700">Documentation Title</label>
                     <input type="text" name="title" value="{{ old('title', $doc->documentation->title ?? $doc->title ?? '') }}" class="w-full border border-blue-200 rounded-lg py-3 px-4 text-gray-800 bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-100" required>
                 </div>
 
@@ -134,7 +134,7 @@
             <div x-show="tab == 2" x-cloak>
                 <!-- Title for Best Practice -->
                 <div class="px-6 mb-6">
-                    <label class="block mb-2 text-lg font-semibold text-green-700">اسم المشروع</label>
+                    <label class="block mb-2 text-lg font-semibold text-green-700">Project Name</label>
                     <input type="text" name="project_name" value="{{ old('project_name', $doc->project_name ?? '') }}" class="w-full border border-green-200 rounded-lg py-3 px-4 text-gray-800 bg-white focus:border-green-500 focus:ring-2 focus:ring-green-100">
                 </div>
 
@@ -168,13 +168,13 @@
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                     </svg>
-                    حفظ التعديلات
+                    Save Changes
                 </button>
                 <a href="{{ route('docs.show', ['id' => $doc->id, 'type' => ($doc->documentation->doc_type ?? 'engineering')]) }}" class="px-8 py-3 bg-gray-500 hover:bg-gray-600 text-white rounded-lg font-semibold flex items-center gap-2 transition">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                     </svg>
-                    إلغاء
+                    Cancel
                 </a>
             </div>
         </form>

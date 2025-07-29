@@ -31,7 +31,7 @@
             </label>
         </div>
         <form x-show="docType === 'engineering'" x-cloak method="POST" action="{{ route('docs.store') }}" enctype="multipart/form-data" class="flex flex-col gap-8" x-data="{ aiLoading: false }" @change.debounce.300ms="$event.target.name === 'code_files[]' ? (aiLoading = true, $nextTick(() => { $el.querySelector('button[name=generate_ai]').click(); })) : null">
-            <!-- حذف حقل لغة التوثيق -->
+            <!-- Documentation language field removed -->
             <input type="hidden" name="user_id" value="{{ isset($user) ? $user->id : '' }}">
             @csrf
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8 px-6">
@@ -93,7 +93,7 @@
                     <textarea id="conclusion" name="conclusion" rows="2" class="w-full border border-pink-200 rounded-lg py-2 px-4 bg-white">{{ old('conclusion') }}</textarea>
                 </div>
             </div>
-            <!-- تم حذف قسم الاختبارات من النموذج -->
+            <!-- Testing section removed from form -->
             <div class="flex flex-col md:flex-row gap-4 mt-4 px-6 pb-8">
                 <template x-if="aiLoading">
                     <button type="button" class="doc-btn bg-gray-400 cursor-not-allowed" disabled>Generating Documentation with AI...</button>
@@ -108,7 +108,7 @@
         </form>
         <!-- Best Practice Project Documentation -->
         <form x-show="docType === 'bestpractice'" x-cloak method="POST" action="{{ route('docs.store') }}" enctype="multipart/form-data" class="flex flex-col gap-8" x-data="{ aiLoading: false }" @change.debounce.300ms="$event.target.name === 'code_files[]' ? (aiLoading = true, $nextTick(() => { $el.querySelector('button[name=generate_ai]').click(); })) : null">
-            <!-- حذف حقل لغة التوثيق -->
+            <!-- Documentation language field removed -->
             @csrf
             <input type="hidden" name="user_id" value="{{ isset($user) ? $user->id : '' }}">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8 px-6">

@@ -1,1 +1,1 @@
-{{-- تم نقل محتوى الهيدر والسايدبار إلى Livewire حسب الطلب --}}
+{{-- Header and sidebar content moved to Livewire as requested --}}

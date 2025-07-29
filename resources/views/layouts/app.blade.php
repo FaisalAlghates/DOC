@@ -35,7 +35,7 @@
         </main>
     </div>
     <footer class="bg-white/80 text-center py-4 text-gray-500 text-sm border-t">
-        &copy; {{ date('Y') }} {{ config('app.name', 'DOC') }}. جميع الحقوق محفوظة.
+        &copy; {{ date('Y') }} {{ config('app.name', 'DOC') }}. All rights reserved.
     </footer>
 </body>
 <style>

@@ -2,17 +2,17 @@
 
 @section('content')
 <div class="container">
-    <h1 class="mb-4">سجل العمليات على التوثيقات</h1>
+    <h1 class="mb-4">Operations Log on Documentation</h1>
     <div class="table-responsive">
         <table class="table table-bordered table-striped">
             <thead>
                 <tr>
                     <th>#</th>
-                    <th>التوثيق</th>
-                    <th>المستخدم</th>
-                    <th>العملية</th>
-                    <th>التغييرات</th>
-                    <th>التاريخ</th>
+                    <th>Documentation</th>
+                    <th>User</th>
+                    <th>Operation</th>
+                    <th>Changes</th>
+                    <th>Date</th>
                 </tr>
             </thead>
             <tbody>

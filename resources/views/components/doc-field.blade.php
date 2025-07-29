@@ -4,7 +4,7 @@
         @if(!empty($value) && $value !== null && trim($value) !== '')
             <div class="w-full">{!! nl2br(e($value)) !!}</div>
         @else
-            <span class="text-gray-400 italic">لا يوجد محتوى محفوظ</span>
+            <span class="text-gray-400 italic">No saved content</span>
         @endif
     </div>
 </div>
