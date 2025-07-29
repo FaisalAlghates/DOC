@@ -1,23 +1,5 @@
 <aside class="fixed top-0 left-0 h-full w-64 bg-white border-r border-blue-100 shadow-lg z-40 flex flex-col transition-transform duration-300">
-    <div class="flex items-center gap-2 px-6 py-5 border-b border-blue-50">
-        <span class="text-4xl font-extrabold tracking-widest animated-gradient-text shadow-lg" style="letter-spacing:0.18em;line-height:1.1;">D HUP</span>
-    </div>
-    <style>
-    .animated-gradient-text {
-      background: linear-gradient(270deg, #2563eb, #06b6d4, #22d3ee, #a5b4fc, #f472b6, #facc15, #2563eb);
-      background-size: 200% 200%;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      text-fill-color: transparent;
-      animation: gradient-move 4s ease-in-out infinite;
-    }
-    @keyframes gradient-move {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-    </style>
+  
     <nav class="flex-1 px-4 py-6 space-y-2">
         <a href="{{ route('dashboard') }}" class="sidebar-link group">
             <svg xmlns='http://www.w3.org/2000/svg' class='w-5 h-5 text-indigo-600 group-hover:text-indigo-800 transition' fill='none' viewBox='0 0 24 24' stroke='currentColor'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2z'/><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M8 5v4m8-4v4'/></svg>
