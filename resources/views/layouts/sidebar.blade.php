@@ -5,22 +5,37 @@
             <svg xmlns='http://www.w3.org/2000/svg' class='w-5 h-5 text-indigo-600 group-hover:text-indigo-800 transition' fill='none' viewBox='0 0 24 24' stroke='currentColor'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2z'/><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M8 5v4m8-4v4'/></svg>
             <span>Dashboard</span>
         </a> --}}
+
+
         <a href="{{ route('profile.edit') }}" class="sidebar-link group">
             <svg xmlns='http://www.w3.org/2000/svg' class='w-5 h-5 text-yellow-600 group-hover:text-yellow-800 transition' fill='none' viewBox='0 0 24 24' stroke='currentColor'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M5.121 17.804A13.937 13.937 0 0112 15c2.485 0 4.797.657 6.879 1.804M15 11a3 3 0 11-6 0 3 3 0 016 0z'/></svg>
             <span>Profile</span>
         </a>
+
+
         {{-- <a href="{{ route('docs.index') }}" class="sidebar-link group">
             <svg xmlns='http://www.w3.org/2000/svg' class='w-5 h-5 text-blue-600 group-hover:text-blue-800 transition' fill='none' viewBox='0 0 24 24' stroke='currentColor'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M8 16h8M8 12h8m-8-4h8M4 6h16'/></svg>
             <span>Documentation</span>
         </a> --}}
+
+        
+
         <a href="{{ route('docs.create') }}" class="sidebar-link group">
             <svg xmlns='http://www.w3.org/2000/svg' class='w-5 h-5 text-green-600 group-hover:text-green-800 transition' fill='none' viewBox='0 0 24 24' stroke='currentColor'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M12 4v16m8-8H4'/></svg>
             <span>Add Documentation</span>
         </a>
+
+
         <a href="{{ route('testing.index') }}" class="sidebar-link group">
             <svg xmlns='http://www.w3.org/2000/svg' class='w-5 h-5 text-purple-600 group-hover:text-purple-800 transition' fill='none' viewBox='0 0 24 24' stroke='currentColor'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M9 17v-2a4 4 0 014-4h2a4 4 0 014 4v2M9 17H7a2 2 0 01-2-2v-2a6 6 0 016-6h2a6 6 0 016 6v2a2 2 0 01-2 2h-2'></path></svg>
             <span>Testing</span>
         </a>
+
+        <a href="{{ route('history.index') }}" class="sidebar-link group">
+            <svg xmlns='http://www.w3.org/2000/svg' class='w-5 h-5 text-teal-600 group-hover:text-teal-800 transition' fill='none' viewBox='0 0 24 24' stroke='currentColor'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z'/></svg>
+            <span>History</span>
+        </a>
+
         <form method="POST" action="{{ route('logout') }}" class="mt-8">
             @csrf
             <button type="submit" class="sidebar-link group w-full">
@@ -37,12 +52,19 @@
             padding: 0.75rem 1rem;
             border-radius: 0.75rem;
             font-weight: 600;
-            color: #374151;
+            color: #000000;
             background: linear-gradient(90deg,rgba(255,255,255,0.7),rgba(245,245,255,0.7));
             box-shadow: 0 1px 4px 0 rgba(0,0,0,0.03);
             transition: all 0.18s cubic-bezier(.4,0,.2,1);
             position: relative;
             overflow: hidden;
+        }
+        .sidebar-link svg {
+            flex-shrink: 0;
+            width: 20px !important;
+            height: 20px !important;
+            stroke-width: 2.5;
+            filter: drop-shadow(0 1px 2px rgba(0,0,0,0.1));
         }
         .sidebar-link::before {
             content: '';
