@@ -5,6 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{ config('app.name', 'DOC') }}</title>
     
+    <!-- Theme Initialization Script (prevents flash) -->
+    <script>
+        (function() {
+            const savedTheme = localStorage.getItem('theme');
+            const systemDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const currentHour = new Date().getHours();
+            
+            let theme = savedTheme;
+            if (!theme) {
+                theme = (systemDarkMode || (currentHour >= 18 || currentHour <= 6)) ? 'dark' : 'light';
+            }
+            
+            if (theme === 'dark') {
+                document.documentElement.classList.add('dark');
+            }
+        })();
+    </script>
+    
     <!-- Assets -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     
@@ -155,6 +173,18 @@
                     <div class="flex items-center space-x-8">
                         @include('layouts.navigation')
                         
+                        <!-- Theme Toggle Button -->
+                        <button id="theme-toggle" class="relative p-3 rounded-2xl bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/20 hover:border-white/40 transition-all duration-300 group hover-lift" title="Toggle Dark/Light Mode">
+                            <!-- Sun Icon (Light Mode) -->
+                            <svg id="sun-icon" class="w-5 h-5 text-yellow-300 group-hover:text-yellow-100 transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>
+                            </svg>
+                            <!-- Moon Icon (Dark Mode) -->
+                            <svg id="moon-icon" class="w-5 h-5 text-blue-300 group-hover:text-blue-100 transition-colors duration-300 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
+                            </svg>
+                        </button>
+                        
                         {{-- <!-- Search Button -->
                         <button class="relative p-3 rounded-2xl bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/20 hover:border-white/40 transition-all duration-300 group hover-lift">
                             <svg class="w-5 h-5 text-cyan-300 group-hover:text-white transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -175,13 +205,17 @@
                 </nav>
                 
                 <!-- Enhanced Mobile Menu Button -->
-                <button class="md:hidden relative p-3 rounded-2xl bg-gradient-to-r from-cyan-500/20 to-purple-500/20 backdrop-blur-sm border border-white/30 text-white shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 hover-lift">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 6h16M4 12h16M4 18h16"></path>
-                    </svg>
-                    <!-- Menu Button Glow -->
-                    <div class="absolute inset-0 rounded-2xl bg-gradient-to-r from-cyan-500 to-purple-500 opacity-20 blur-md group-hover:opacity-40 transition-opacity duration-300"></div>
-                </button>
+                <div class="md:hidden flex items-center space-x-3">
+                    
+                    <!-- Mobile Menu Button -->
+                    <button class="relative p-3 rounded-2xl bg-gradient-to-r from-cyan-500/20 to-purple-500/20 backdrop-blur-sm border border-white/30 text-white shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 hover-lift">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                        <!-- Menu Button Glow -->
+                        <div class="absolute inset-0 rounded-2xl bg-gradient-to-r from-cyan-500 to-purple-500 opacity-20 blur-md group-hover:opacity-40 transition-opacity duration-300"></div>
+                    </button>
+                </div>
                 
             </div>
         </div>
@@ -522,18 +556,94 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // ==================== THEME MANAGEMENT ====================
     function initializeThemeHandling() {
-        if (!isSpecialPage) return;
-        
         const savedTheme = localStorage.getItem('theme');
         const systemDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
         const currentHour = new Date().getHours();
         
-        // Auto theme detection
-        if (savedTheme === 'dark' || (!savedTheme && (systemDarkMode || (currentHour >= 18 || currentHour <= 6)))) {
-            body.classList.add('dark-mode');
-        } else {
-            body.classList.add('light-mode');
+        // Get theme toggle elements
+        const themeToggle = document.getElementById('theme-toggle');
+        const profileThemeToggle = document.getElementById('profile-theme-toggle');
+        const sunIcon = document.getElementById('sun-icon');
+        const moonIcon = document.getElementById('moon-icon');
+        const profileSunIcon = document.getElementById('profile-sun-icon');
+        const profileMoonIcon = document.getElementById('profile-moon-icon');
+        const themeToggleText = document.getElementById('theme-toggle-text');
+        
+        // Initialize theme
+        let currentTheme = savedTheme;
+        if (!currentTheme) {
+            currentTheme = (systemDarkMode || (currentHour >= 18 || currentHour <= 6)) ? 'dark' : 'light';
         }
+        
+        // Apply theme
+        applyTheme(currentTheme);
+        
+        // Add click handlers for theme toggle
+        if (themeToggle) {
+            themeToggle.addEventListener('click', function() {
+                toggleTheme();
+            });
+        }
+
+        if (profileThemeToggle) {
+            profileThemeToggle.addEventListener('click', function() {
+                toggleTheme();
+            });
+        }
+        
+        // Theme toggle function
+        function toggleTheme() {
+            const htmlElement = document.documentElement;
+            const isDark = htmlElement.classList.contains('dark');
+            const newTheme = isDark ? 'light' : 'dark';
+            
+            applyTheme(newTheme);
+            localStorage.setItem('theme', newTheme);
+            
+            // Add smooth transition effect
+            document.body.style.transition = 'background-color 0.3s ease, color 0.3s ease';
+            setTimeout(() => {
+                document.body.style.transition = '';
+            }, 300);
+        }
+        
+        <!-- Apply theme function -->
+        function applyTheme(theme) {
+            const htmlElement = document.documentElement;
+            
+            if (theme === 'dark') {
+                htmlElement.classList.add('dark');
+                // Add dark theme class to body for additional styling
+                document.body.classList.add('dark-theme');
+                document.body.classList.remove('light-theme');
+                // Update header icons
+                if (sunIcon) sunIcon.classList.add('hidden');
+                if (moonIcon) moonIcon.classList.remove('hidden');
+                // Update profile menu icons
+                if (profileSunIcon) profileSunIcon.classList.add('hidden');
+                if (profileMoonIcon) profileMoonIcon.classList.remove('hidden');
+                if (themeToggleText) themeToggleText.textContent = 'Switch to Light Mode';
+            } else {
+                htmlElement.classList.remove('dark');
+                // Add light theme class to body for additional styling
+                document.body.classList.add('light-theme');
+                document.body.classList.remove('dark-theme');
+                // Update header icons
+                if (sunIcon) sunIcon.classList.remove('hidden');
+                if (moonIcon) moonIcon.classList.add('hidden');
+                // Update profile menu icons
+                if (profileSunIcon) profileSunIcon.classList.remove('hidden');
+                if (profileMoonIcon) profileMoonIcon.classList.add('hidden');
+                if (themeToggleText) themeToggleText.textContent = 'Switch to Dark Mode';
+            }
+        }
+        
+        // Listen for system theme changes
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
+            if (!localStorage.getItem('theme')) {
+                applyTheme(e.matches ? 'dark' : 'light');
+            }
+        });
     }
     
     // ==================== FLOATING PARTICLES SYSTEM ====================

@@ -1,3 +1,117 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* ==================== THEME TRANSITIONS ==================== */
+@layer base {
+    html {
+        transition: color-scheme 0.3s ease;
+    }
+    
+    body {
+        transition: background-color 0.3s ease, color 0.3s ease;
+    }
+    
+    * {
+        transition: border-color 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+    }
+}
+
+/* ==================== CUSTOM DARK MODE UTILITIES ==================== */
+@layer utilities {
+    .theme-transition {
+        @apply transition-all duration-300 ease-in-out;
+    }
+    
+    .glass-light {
+        @apply bg-white/60 backdrop-blur-2xl border border-gray-200/50;
+    }
+    
+    .glass-dark {
+        @apply dark:bg-slate-800/60 dark:backdrop-blur-2xl dark:border-white/10;
+    }
+    
+    .text-themed {
+        @apply text-gray-800 dark:text-white;
+    }
+    
+    .text-themed-secondary {
+        @apply text-gray-600 dark:text-gray-300;
+    }
+    
+    .bg-themed-card {
+        @apply bg-white/80 dark:bg-slate-800/80;
+    }
+    
+    .border-themed {
+        @apply border-gray-200 dark:border-gray-700;
+    }
+    
+    .hover-themed {
+        @apply hover:bg-gray-50 dark:hover:bg-slate-700;
+    }
+}
+
+/* ==================== THEME SPECIFIC ANIMATIONS ==================== */
+@keyframes theme-fade-in {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes theme-toggle {
+    0% {
+        transform: rotate(0deg) scale(1);
+    }
+    50% {
+        transform: rotate(180deg) scale(1.1);
+    }
+    100% {
+        transform: rotate(360deg) scale(1);
+    }
+}
+
+.theme-toggle-animate {
+    animation: theme-toggle 0.5s ease-in-out;
+}
+
+.theme-fade-in {
+    animation: theme-fade-in 0.3s ease-out;
+}
+
+/* ==================== IMPROVED DARK MODE STYLES ==================== */
+.dark {
+    color-scheme: dark;
+}
+
+.dark .scrollbar-thin {
+    scrollbar-color: rgba(75, 85, 99, 0.7) rgba(31, 41, 55, 0.3);
+}
+
+.dark .scrollbar-thin::-webkit-scrollbar-thumb {
+    background-color: rgba(75, 85, 99, 0.7);
+}
+
+.dark .scrollbar-thin::-webkit-scrollbar-track {
+    background-color: rgba(31, 41, 55, 0.3);
+}
+
+/* ==================== PRINT STYLES ==================== */
+@media print {
+    .dark {
+        color-scheme: light;
+        background: white !important;
+        color: black !important;
+    }
+    
+    .dark * {
+        background: transparent !important;
+        color: black !important;
+        border-color: black !important;
+    }
+}

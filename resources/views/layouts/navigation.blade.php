@@ -55,8 +55,16 @@
     </div>
 @else
     <div class="flex items-center space-x-4">
-        <a href="{{ route('login') }}" class="px-6 py-2 text-slate-600 hover:text-blue-600 font-medium transition-colors">
-            Sign In
+        <a href="{{ route('login') }}" class="group relative px-8 py-3 bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/30 hover:border-white/50 text-white hover:text-cyan-300 font-semibold rounded-xl transition-all duration-300 transform hover:scale-105 hover:-translate-y-0.5 shadow-lg hover:shadow-2xl overflow-hidden">
+            <!-- Background gradient effect -->
+            <div class="absolute inset-0 bg-gradient-to-r from-cyan-500/20 to-blue-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            <!-- Icon -->
+            <div class="relative flex items-center space-x-2">
+                <svg class="w-4 h-4 transition-transform duration-300 group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"></path>
+                </svg>
+                <span class="relative">Sign In</span>
+            </div>
         </a>
         <a href="{{ route('register') }}" class="px-6 py-2 bg-gradient-to-r from-blue-600 to-indigo-700 hover:from-blue-700 hover:to-indigo-800 text-white rounded-lg font-medium shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-0.5">
             Get Started

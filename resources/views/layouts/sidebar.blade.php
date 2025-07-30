@@ -1,10 +1,10 @@
-<aside class="fixed top-20 left-0 h-[calc(100vh-5rem)] w-72 bg-gradient-to-b from-slate-900 via-blue-900 to-indigo-900 backdrop-blur-3xl border-r border-white/20 shadow-2xl z-40 flex flex-col transition-all duration-700 ease-out overflow-hidden">
+<aside class="fixed top-20 left-0 h-[calc(100vh-5rem)] w-72 bg-gradient-to-b from-slate-900 via-blue-900 to-indigo-900 dark:from-slate-800 dark:via-slate-900 dark:to-slate-950 backdrop-blur-3xl border-r border-white/20 dark:border-slate-700/50 shadow-2xl z-40 flex flex-col transition-all duration-700 ease-out overflow-hidden">
     <!-- Sidebar Background Pattern -->
-    <div class="absolute inset-0 bg-gradient-to-r from-blue-600/10 via-purple-600/10 to-emerald-600/10 animate-gradient-x"></div>
-    <div class="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%23ffffff" fill-opacity="0.05"%3E%3Ccircle cx="30" cy="30" r="1"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-20"></div>
+    <div class="absolute inset-0 bg-gradient-to-r from-blue-600/10 via-purple-600/10 to-emerald-600/10 dark:from-blue-500/5 dark:via-purple-500/5 dark:to-emerald-500/5 animate-gradient-x"></div>
+    <div class="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%23ffffff" fill-opacity="0.05"%3E%3Ccircle cx="30" cy="30" r="1"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-20 dark:opacity-10"></div>
     
     <!-- Sidebar Side Gradient -->
-    <div class="absolute right-0 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-cyan-400 to-transparent opacity-60"></div>
+    <div class="absolute right-0 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-cyan-400 dark:via-cyan-500 to-transparent opacity-60"></div>
     
     <!-- Navigation Header -->
     <div class="relative px-6 py-6 border-b border-white/10">
