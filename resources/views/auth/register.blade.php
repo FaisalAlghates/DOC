@@ -270,24 +270,24 @@
                 </div>
 
                         <div class="text-center pt-6">
-                            <p class="text-sm text-white/90 drop-shadow-md">
+                            {{-- <p class="text-sm text-white/90 drop-shadow-md">
                                 Already have an account?
                                 <a href="{{ route('login') }}" class="font-bold text-transparent bg-clip-text bg-gradient-to-r from-emerald-300 to-cyan-300 hover:from-emerald-200 hover:to-cyan-200 ml-1 transition-all duration-300 hover:scale-105 inline-block">
                                     Sign in here
                                 </a>
-                            </p>
+                            </p> --}}
                         </div>
                     </form>
                 </div>
 
                 <!-- Login Link -->
                 <div class="text-center mt-8 transform transition-all duration-500 hover:scale-105">
-                    <p class="text-white/80 font-medium drop-shadow-md">
+                    {{-- <p class="text-white/80 font-medium drop-shadow-md">
                         Already have an account? 
                         <a href="{{ url('/login') }}" class="font-bold text-emerald-300 hover:text-emerald-200 transition-colors duration-300 hover:drop-shadow-lg">
                             Sign In
                         </a>
-                    </p>
+                    </p> --}}
                 </div>
             </div>
         </div>
