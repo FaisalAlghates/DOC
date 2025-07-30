@@ -184,14 +184,15 @@
         </div>
 
         <!-- Main Form Container -->
-        <form method="POST" action="{{ route('docs.update', $doc->documentation->id) }}" 
+        <form method="POST" action="{{ route('docs.update', $doc->id) }}" 
               class="bg-white/80 backdrop-blur-2xl rounded-3xl border border-gray-200/50 shadow-2xl overflow-hidden"
               x-data="{ 
                   formData: {},
                   isDirty: false,
                   isSubmitting: false
               }"
-              @input="isDirty = true">
+              @input="isDirty = true"
+              @submit="isSubmitting = true; setTimeout(() => { if(isSubmitting) { alert('Form submission taking too long. Please check your internet connection.'); isSubmitting = false; } }, 30000)">
             @csrf 
             @method('PUT')
             <input type="hidden" name="doc_type" value="{{ $doc->documentation->doc_type }}">
@@ -717,13 +718,31 @@
                     <!-- Save Changes Button -->
                     <button type="submit" 
                             :disabled="isSubmitting"
-                            @click="isSubmitting = true"
+                            @click="
+                                if (!isSubmitting) {
+                                    isSubmitting = true;
+                                    console.log('Submitting form to: {{ route('docs.update', $doc->id) }}');
+                                    console.log('CSRF Token: ', document.querySelector('input[name=_token]').value);
+                                    console.log('Doc Type: ', document.querySelector('input[name=doc_type]').value);
+                                }
+                            "
                             class="group relative px-10 py-4 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white rounded-2xl font-bold text-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl flex items-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed">
                         <svg class="w-6 h-6 transition-transform duration-300 group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
                         </svg>
                         <span x-text="isSubmitting ? 'Saving...' : 'Save Changes'"></span>
                         <div class="absolute inset-0 rounded-2xl bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    </button>
+                    
+                    <!-- Reset Saving State Button (shows only when submitting) -->
+                    <button type="button" 
+                            x-show="isSubmitting"
+                            @click="isSubmitting = false; alert('Save operation cancelled. You can try again.');"
+                            class="group relative px-6 py-4 bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white rounded-2xl font-bold text-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl flex items-center gap-3">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                        </svg>
+                        Cancel Save
                     </button>
                     
                     <!-- Cancel Button -->

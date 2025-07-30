@@ -6,6 +6,7 @@ use App\Models\Documentation;
 use App\Models\DocumentHistory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use App\Services\OpenAIService;
 
 class DocumentationController extends Controller
@@ -153,10 +154,86 @@ class DocumentationController extends Controller
     public function update(Request $request, $id)
     {
         try {
-            // $id هنا يشير إلى documentation_id (الجدول الرئيسي)
-            $docMain = \App\Models\Documentation::findOrFail($id);
-            $user = Auth::user();
+            // تحديد نوع المستند من الطلب
+            $docType = $request->input('doc_type');
             
+            if (!$docType) {
+                return redirect()->back()
+                               ->withInput()
+                               ->with('error', 'Document type is required.');
+            }
+            
+            // العثور على المستند الفرعي والرئيسي بناءً على النوع
+            if ($docType === 'engineering') {
+                $subDoc = \App\Models\EngineeringDocumentation::find($id);
+                if (!$subDoc) {
+                    return redirect()->back()
+                                   ->withInput()
+                                   ->with('error', 'Engineering documentation not found with ID: ' . $id);
+                }
+                $docMain = $subDoc->documentation;
+                
+                // Validation for engineering documentation
+                $request->validate([
+                    'title' => 'required|string|max:255',
+                    'purpose' => 'nullable|string',
+                    'scope' => 'nullable|string',
+                    'definitions' => 'nullable|string',
+                    'overall_description' => 'nullable|string',
+                    'product_perspective' => 'nullable|string',
+                    'user_classes' => 'nullable|string',
+                    'operating_environment' => 'nullable|string',
+                    'constraints' => 'nullable|string',
+                    'assumptions' => 'nullable|string',
+                    'functional_requirements' => 'nullable|string',
+                    'nonfunctional_requirements' => 'nullable|string',
+                    'use_cases' => 'nullable|string',
+                    'data_model' => 'nullable|string',
+                    'interface_requirements' => 'nullable|string',
+                    'appendices' => 'nullable|string',
+                    'compliance_report' => 'nullable|string',
+                    'database_tables' => 'nullable|string',
+                    'ui_ux' => 'nullable|string',
+                    'conclusion' => 'nullable|string',
+                    'content' => 'nullable|string',
+                ]);
+                
+            } elseif ($docType === 'bestpractice') {
+                $subDoc = \App\Models\BestPracticeDocumentation::find($id);
+                if (!$subDoc) {
+                    return redirect()->back()
+                                   ->withInput()
+                                   ->with('error', 'Best practice documentation not found with ID: ' . $id);
+                }
+                $docMain = $subDoc->documentation;
+                
+                // Validation for best practice documentation
+                $request->validate([
+                    'project_name' => 'required|string|max:255',
+                    'project_overview' => 'nullable|string',
+                    'stakeholders' => 'nullable|string',
+                    'business_goals' => 'nullable|string',
+                    'deliverables' => 'nullable|string',
+                    'timeline' => 'nullable|string',
+                    'architecture' => 'nullable|string',
+                    'risks' => 'nullable|string',
+                    'deployment' => 'nullable|string',
+                    'lessons' => 'nullable|string',
+                ]);
+                
+            } else {
+                return redirect()->back()
+                               ->withInput()
+                               ->with('error', 'Invalid document type: ' . $docType);
+            }
+            
+            if (!$docMain) {
+                return redirect()->back()
+                               ->withInput()
+                               ->with('error', 'Main documentation not found.');
+            }
+            
+            $user = Auth::user();
             $data = $request->all();
             
             // تحديث الجدول الرئيسي
@@ -173,38 +250,29 @@ class DocumentationController extends Controller
             ]);
             
             // تحديث الجدول الفرعي حسب النوع
-            $subDocId = null;
-            if ($docMain->doc_type === 'engineering') {
-                $doc = \App\Models\EngineeringDocumentation::where('documentation_id', $docMain->id)->first();
-                if ($doc) {
-                    // فقط الحقول الخاصة بـ Engineering Documentation
-                    $engineeringFields = [
-                        'purpose', 'scope', 'definitions', 'overall_description', 
-                        'product_perspective', 'user_classes', 'operating_environment',
-                        'constraints', 'assumptions', 'functional_requirements',
-                        'nonfunctional_requirements', 'use_cases', 'data_model',
-                        'interface_requirements', 'appendices', 'compliance_report',
-                        'database_tables', 'ui_ux', 'conclusion', 'content'
-                    ];
-                    
-                    $engineeringData = collect($data)->only($engineeringFields)->toArray();
-                    $doc->update($engineeringData);
-                    $subDocId = $doc->id;
-                }
-            } elseif ($docMain->doc_type === 'bestpractice') {
-                $doc = \App\Models\BestPracticeDocumentation::where('documentation_id', $docMain->id)->first();
-                if ($doc) {
-                    // فقط الحقول الخاصة بـ Best Practice Documentation
-                    $bestPracticeFields = [
-                        'project_overview', 'stakeholders', 'business_goals',
-                        'deliverables', 'timeline', 'architecture', 
-                        'risks', 'deployment', 'lessons'
-                    ];
-                    
-                    $bestPracticeData = collect($data)->only($bestPracticeFields)->toArray();
-                    $doc->update($bestPracticeData);
-                    $subDocId = $doc->id;
-                }
+            if ($docMain->doc_type === 'engineering' && $subDoc) {
+                // فقط الحقول الخاصة بـ Engineering Documentation
+                $engineeringFields = [
+                    'purpose', 'scope', 'definitions', 'overall_description', 
+                    'product_perspective', 'user_classes', 'operating_environment',
+                    'constraints', 'assumptions', 'functional_requirements',
+                    'nonfunctional_requirements', 'use_cases', 'data_model',
+                    'interface_requirements', 'appendices', 'compliance_report',
+                    'database_tables', 'ui_ux', 'conclusion', 'content'
+                ];
+                
+                $engineeringData = collect($data)->only($engineeringFields)->toArray();
+                $subDoc->update($engineeringData);
+            } elseif ($docMain->doc_type === 'bestpractice' && $subDoc) {
+                // فقط الحقول الخاصة بـ Best Practice Documentation
+                $bestPracticeFields = [
+                    'project_overview', 'stakeholders', 'business_goals',
+                    'deliverables', 'timeline', 'architecture', 
+                    'risks', 'deployment', 'lessons'
+                ];
+                
+                $bestPracticeData = collect($data)->only($bestPracticeFields)->toArray();
+                $subDoc->update($bestPracticeData);
             }
             
             // سجل العملية في history
@@ -212,17 +280,22 @@ class DocumentationController extends Controller
                 'documentation_id' => $docMain->id,
                 'user_id' => $user->id,
                 'action' => 'update',
-                'changes' => json_encode(['updated_at' => now()]),
+                'changes' => json_encode(['updated_at' => now(), 'updated_fields' => array_keys($data)]),
             ]);
             
-            // استخدام ID السجل الفرعي في التوجيه
-            return redirect()->route('docs.show', ['id' => $subDocId, 'type' => $docMain->doc_type])
+            // العودة إلى صفحة العرض
+            return redirect()->route('docs.show', ['id' => $subDoc->id, 'type' => $docMain->doc_type])
                              ->with('message', 'Changes saved successfully! ✅');
                              
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return redirect()->back()
+                           ->withInput()
+                           ->withErrors($e->validator->errors())
+                           ->with('error', 'Please check the form for errors.');
         } catch (\Exception $e) {
             return redirect()->back()
                            ->withInput()
-                           ->with('error', 'Error occurred while saving: ' . $e->getMessage());
+                           ->with('error', 'Error occurred while saving: ' . $e->getMessage() . ' (Line: ' . $e->getLine() . ')');
         }
     }
 

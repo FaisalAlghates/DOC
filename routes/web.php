@@ -40,6 +40,11 @@ Route::get('/', function () {
 Route::middleware(['auth'])->group(function () {
     // لوحة التحكم
     Route::get('/dashboard', fn() => view('dashboard'))->name('dashboard');
+    
+    // Test route for debugging
+    Route::get('/test-edit', function() {
+        return view('test-edit');
+    })->name('test.edit');
 
     // صفحة الملف الشخصي (عرض)
     Route::get('/profile/show', [ProfileController::class, 'show'])->name('profile.show');
