@@ -184,7 +184,7 @@
         </div>
 
         <!-- Main Form Container -->
-        <form method="POST" action="{{ route('docs.update', $doc->documentation->id) }}" 
+        <form method="POST" action="{{ route('docs.update', $doc->id) }}" 
               class="bg-white/80 backdrop-blur-2xl rounded-3xl border border-gray-200/50 shadow-2xl overflow-hidden"
               x-data="{ 
                   formData: {},
