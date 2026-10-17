@@ -43,6 +43,21 @@ DOC keeps a team's software documentation, its tests and the history of every ch
 - **AI:** OpenAI API
 - **Quality:** Pest, Laravel Pint
 
+## Run the whole app (Docker)
+
+The static demo above is a snapshot. The real app, with working forms, uploads and sign-in, runs from the included `Dockerfile`: PHP, the built front end and a SQLite database seeded on start.
+
+```bash
+docker build -t doc-demo .
+docker run --rm -p 8080:10000 doc-demo
+```
+
+Open <http://localhost:8080>. Sign in with `demo@example.com` / `demo-pass-123` (created when the container first starts). A GitHub Action builds this image on every push and requests the dashboard, documentation, testing, history, users and profile pages.
+
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/FaisalAlghates/DOC)
+
+> The Render button deploys the same image on Render's free plan: the first request after a pause is slow, and the data is reset each time the instance restarts. Use it for demos only, never with real data.
+
 ## Run it
 
 You need PHP 8.2+, Composer, Node.js and a database.
