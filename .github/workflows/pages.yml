@@ -47,7 +47,7 @@ jobs:
           {
             echo
             echo "APP_KEY=base64:$(openssl rand -base64 32)"
-            echo "APP_ENV=production"; echo "APP_DEBUG=true"; echo "APP_URL=http://127.0.0.1:8000"
+            echo "APP_ENV=production"; echo "APP_DEBUG=false"; echo "APP_URL=http://127.0.0.1:8000"
             echo "DB_CONNECTION=mysql"; echo "DB_HOST=127.0.0.1"; echo "DB_PORT=3306"
             echo "DB_DATABASE=demo"; echo "DB_USERNAME=root"; echo "DB_PASSWORD=root"
             echo "SESSION_DRIVER=file"; echo "CACHE_STORE=file"
@@ -72,7 +72,7 @@ jobs:
             http://127.0.0.1:8000/ http://127.0.0.1:8000/login http://127.0.0.1:8000/register http://127.0.0.1:8000/dashboard \
             http://127.0.0.1:8000/docs http://127.0.0.1:8000/testing http://127.0.0.1:8000/history http://127.0.0.1:8000/profile/show || true
           test -f site/index.html || { echo "no home page was captured"; curl -s -H "Accept: application/json" http://127.0.0.1:8000/ | head -c 2500; echo; tail -30 serve.log; exit 1; }
-          find site -name '*.html' -print0 | xargs -0 sed -i 's#<body\([^>]*\)>#<body\1><div style="position:fixed;bottom:12px;left:50%;transform:translateX(-50%);z-index:99999;background:#2a2208;color:#f3d98b;padding:8px 16px;border-radius:8px;font:13px/1.4 system-ui,sans-serif;box-shadow:0 2px 12px rgba(0,0,0,.4)">Static demo snapshot: forms and live components are switched off.</div>#; s#http://127.0.0.1:8000/#./#g'
+          find site -name '*.html' -print0 | xargs -0 sed -i 's|<body\([^>]*\)>|<body\1><div style="position:fixed;bottom:12px;left:50%;transform:translateX(-50%);z-index:99999;background:#2a2208;color:#f3d98b;padding:8px 16px;border-radius:8px;font:13px/1.4 system-ui,sans-serif;box-shadow:0 2px 12px rgba(0,0,0,.4)">Static demo snapshot: forms and live components are switched off.</div>|; s|http://127.0.0.1:8000/|./|g'
           touch site/.nojekyll
       - name: Show the application log on failure
         if: failure()
