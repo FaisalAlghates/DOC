@@ -47,6 +47,7 @@ jobs:
           php artisan key:generate --force
           {
             echo
+            echo "APP_KEY=$(php artisan key:generate --show)"
             echo "APP_ENV=production"; echo "APP_DEBUG=true"; echo "APP_URL=http://127.0.0.1:8000"
             echo "DB_CONNECTION=mysql"; echo "DB_HOST=127.0.0.1"; echo "DB_PORT=3306"
             echo "DB_DATABASE=demo"; echo "DB_USERNAME=root"; echo "DB_PASSWORD=root"
