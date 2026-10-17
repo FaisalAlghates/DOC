@@ -72,6 +72,9 @@ jobs:
           test -f site/index.html || { echo "no home page was captured"; tail -50 serve.log; exit 1; }
           find site -name '*.html' -print0 | xargs -0 sed -i 's#<body\([^>]*\)>#<body\1><div style="background:\#2a2208;color:\#f3d98b;padding:8px 16px;font:14px/1.4 system-ui,sans-serif;text-align:center">Static demo snapshot: forms and live components are switched off.</div>#; s#http://127.0.0.1:8000/#./#g'
           touch site/.nojekyll
+      - name: Show the application log on failure
+        if: failure()
+        run: tail -n 60 storage/logs/laravel.log | cut -c1-400
       - uses: actions/upload-pages-artifact@v3
         with:
           path: site
