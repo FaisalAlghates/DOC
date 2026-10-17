@@ -1,45 +1,76 @@
-# AI Documentation Platform
+<div align="center">
 
-An AI-powered web platform designed to simplify the creation, management, organization, and testing of software documentation.
+# DOC · AI Documentation Platform
 
-## Overview
+**Create, organize, test and track software documentation in one place.**
 
-The AI Documentation Platform provides a centralized environment for managing software documentation throughout the development lifecycle. It combines documentation management, testing, user management, history tracking, and AI-assisted capabilities in a web-based system.
+[![Live demo](https://img.shields.io/badge/live%20demo-open-0891b2)](https://faisalalghates.github.io/DOC/)
+![Laravel](https://img.shields.io/badge/Laravel-12-FF2D20)
+![Livewire](https://img.shields.io/badge/Livewire-3-FB70A9)
+![Tailwind](https://img.shields.io/badge/Tailwind%20CSS-38BDF8)
+![PHP](https://img.shields.io/badge/PHP-8.2%2B-777BB4)
+
+**[Live demo](https://faisalalghates.github.io/DOC/)** · [Features](#features) · [Run it](#run-it) · [Documentation](#documentation)
+
+</div>
+
+> **About the demo.** The live demo is a read-only static snapshot of the running app (a CI job boots Laravel on MySQL, signs in as a demo user and saves the pages). Forms and live components do not work in it. Run the project locally for the real thing.
+
+## What it does
+
+DOC keeps a team's software documentation, its tests and the history of every change in one web application, with AI assistance for writing and reviewing.
 
 ## Features
 
-* User registration and authentication
-* User and developer management
-* Documentation creation and management
-* Software engineering documentation
-* Best-practice documentation
-* Testing management
-* Document history and activity tracking
-* AI-assisted documentation capabilities
-* User profile management
-* Dashboard and centralized management interface
+| Area | What you get |
+| --- | --- |
+| **Documentation** | Create, edit and organize documents: software engineering docs and best-practice docs |
+| **Testing** | Plan and record tests next to the documentation they verify |
+| **History** | Every change to a document is recorded and can be reviewed |
+| **Users and roles** | Registration, login, user management with `admin` and `user` roles, profile and password management |
+| **AI assistance** | OpenAI-backed helpers for documentation tasks (needs your own API key) |
+| **Dashboard** | One place to see what exists and what changed |
 
-## Technologies
+## Tech stack
 
-* PHP 8.2+
-* Laravel 12
-* Livewire 3
-* Laravel Volt
-* Tailwind CSS
-* Vite
-* MySQL / SQLite
-* OpenAI API
-* Laravel Socialite
-* Pest PHP
+- **Backend:** PHP 8.2+, Laravel 12, Livewire 3 with Volt, Laravel Socialite
+- **Frontend:** Blade, Tailwind CSS, Vite
+- **Data:** MySQL or SQLite
+- **AI:** OpenAI API
+- **Quality:** Pest, Laravel Pint
 
-## Architecture
+## Run it
 
-The platform follows a modular Laravel architecture and separates core application functionality into dedicated components. This makes the system easier to maintain, extend, and scale.
+You need PHP 8.2+, Composer, Node.js and a database.
 
-## Purpose
+```bash
+git clone https://github.com/FaisalAlghates/DOC.git
+cd DOC
 
-The project aims to improve software documentation workflows by providing developers and teams with a centralized platform for creating, maintaining, reviewing, and organizing technical documentation.
+composer install
+npm install
+
+cp .env.example .env
+php artisan key:generate    # if APP_KEY is missing from .env, add a line "APP_KEY=" first
+# set DB_* in .env (MySQL) or use SQLite: touch database/database.sqlite
+# optional, for the AI features: OPENAI_API_KEY=...
+
+php artisan migrate
+```
+
+Then, in two terminals:
+
+```bash
+php artisan serve
+npm run dev
+```
+
+Open <http://127.0.0.1:8000>, create an account and sign in. Run the tests with `php artisan test`.
+
+## Documentation
+
+[`SOFTWARE_DOCUMENTATION.md`](SOFTWARE_DOCUMENTATION.md) describes the system in detail: purpose, technical architecture, database schema, modules, controllers and interface design.
 
 ## License
 
-This project is licensed under the MIT License.
+MIT.
