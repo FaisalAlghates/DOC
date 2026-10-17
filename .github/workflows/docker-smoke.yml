@@ -1,0 +1,30 @@
+name: Container smoke test
+
+# Builds the demo image, starts it, signs in as the demo user and requests the main pages.
+on:
+  push:
+    branches: [main]
+    paths: ['Dockerfile', 'docker/**', 'app/**', 'routes/**', 'resources/**', 'database/**', 'composer.json', '.github/workflows/docker-smoke.yml']
+  workflow_dispatch:
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: docker build -t doc-demo .
+      - name: Run and request the pages
+        run: |
+          docker run -d --name app -p 8080:10000 -e APP_DEBUG=true doc-demo
+          for i in $(seq 1 60); do curl -fs http://127.0.0.1:8080/ >/dev/null && break; sleep 2; done
+          curl -s -c jar -b jar http://127.0.0.1:8080/login -o login.html
+          TOKEN=$(grep -o 'name="_token" value="[^"]*"' login.html | head -1 | sed 's/.*value="//; s/"$//')
+          curl -s -c jar -b jar -o /dev/null -d "_token=$TOKEN&email=demo@example.com&password=demo-pass-123" http://127.0.0.1:8080/login
+          fail=0
+          for p in / /login /register /dashboard /docs /docs/create /testing /testing/create /history /users /profile/show /profile; do
+            code=$(curl -s -b jar -o body.txt -w '%{http_code}' -H 'Accept: application/json' "http://127.0.0.1:8080$p")
+            echo "$code $p"
+            if [ "$code" != "200" ] && [ "$code" != "302" ]; then fail=1; head -c 400 body.txt | tr '\n' ' '; echo; fi
+          done
+          docker logs app 2>&1 | tail -n 20
+          exit $fail
