@@ -2,6 +2,8 @@
 
 # DOC · AI Documentation Platform
 
+<sub>In the app it is called **DHUP, the Documentation Universe**.</sub>
+
 **Create, organize, test and track software documentation in one place.**
 
 [![Live demo](https://img.shields.io/badge/live%20demo-open-0891b2)](https://faisalalghates.github.io/DOC/)
@@ -11,6 +13,8 @@
 ![PHP](https://img.shields.io/badge/PHP-8.2%2B-777BB4)
 
 **[Live demo](https://faisalalghates.github.io/DOC/)** · [Features](#features) · [Run it](#run-it) · [Documentation](#documentation)
+
+<img src="docs/screenshots/dashboard.png" alt="DHUP dashboard (Documentation Universe)" width="860" />
 
 </div>
 
