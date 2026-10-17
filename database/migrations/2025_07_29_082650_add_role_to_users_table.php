@@ -11,6 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
+        // the first users migration already creates this column on a fresh install
+        if (Schema::hasColumn('users', 'role')) {
+            return;
+        }
+
         Schema::table('users', function (Blueprint $table) {
             $table->string('role')->default('user')->after('email');
         });
