@@ -12,7 +12,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        DB::statement("ALTER TABLE `document_histories` MODIFY COLUMN `action` ENUM('create', 'update', 'add_test', 'update_test', 'add_engineering', 'update_engineering', 'add_best_practice', 'update_best_practice') NOT NULL");
+        $this->setActions(['create', 'update', 'add_test', 'update_test', 'add_engineering', 'update_engineering', 'add_best_practice', 'update_best_practice']);
     }
 
     /**
@@ -20,6 +20,21 @@ return new class extends Migration
      */
     public function down(): void
     {
-        DB::statement("ALTER TABLE `document_histories` MODIFY COLUMN `action` ENUM('create', 'update') NOT NULL");
+        $this->setActions(['create', 'update']);
+    }
+
+    /** MySQL and MariaDB alter the enum in place; other databases (SQLite for the demo) rebuild the column. */
+    private function setActions(array $actions): void
+    {
+        if (in_array(DB::getDriverName(), ['mysql', 'mariadb'], true)) {
+            $list = "'".implode("', '", $actions)."'";
+            DB::statement("ALTER TABLE `document_histories` MODIFY COLUMN `action` ENUM($list) NOT NULL");
+
+            return;
+        }
+
+        Schema::table('document_histories', function (Blueprint $table) use ($actions) {
+            $table->enum('action', $actions)->change();
+        });
     }
 };
