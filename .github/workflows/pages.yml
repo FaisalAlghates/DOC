@@ -1,0 +1,87 @@
+name: Live demo (GitHub Pages)
+
+# A static snapshot of the running app: CI boots Laravel on MySQL, signs in as a demo user, crawls the pages and publishes them.
+# https://faisalalghates.github.io/DOC/  (read-only: forms and live components do not work in the snapshot)
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: demo
+        ports: ['3306:3306']
+        options: >-
+          --health-cmd="mysqladmin ping -h 127.0.0.1 -proot" --health-interval=5s --health-timeout=5s --health-retries=20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: mbstring, intl, pdo_mysql, gd, zip, bcmath, fileinfo, exif
+          coverage: none
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: composer install --no-interaction --prefer-dist --no-progress
+      - run: npm install --no-audit --no-fund
+      - run: npm run build
+      - name: Boot the app with a demo user
+        run: |
+          cp .env.example .env
+          php artisan key:generate --force
+          {
+            echo "APP_ENV=production"; echo "APP_DEBUG=false"; echo "APP_URL=http://127.0.0.1:8000"
+            echo "DB_CONNECTION=mysql"; echo "DB_HOST=127.0.0.1"; echo "DB_PORT=3306"
+            echo "DB_DATABASE=demo"; echo "DB_USERNAME=root"; echo "DB_PASSWORD=root"
+            echo "SESSION_DRIVER=file"; echo "CACHE_STORE=file"
+          } >> .env
+          php artisan migrate --force --seed
+          php artisan storage:link || true
+          php artisan tinker --execute="App\Models\User::create(['name'=>'Demo','email'=>'demo@example.com','password'=>'demo-pass-123','role'=>'admin']);"
+      - name: Sign in and crawl the pages
+        run: |
+          php artisan serve --host=127.0.0.1 --port=8000 > serve.log 2>&1 &
+          for i in $(seq 1 20); do curl -fs http://127.0.0.1:8000/ >/dev/null && break; sleep 1; done
+          curl -s -c jar -b jar http://127.0.0.1:8000/login -o login.html
+          TOKEN=$(grep -o 'name="_token" value="[^"]*"' login.html | head -1 | sed 's/.*value="//; s/"$//')
+          curl -s -c jar -b jar -o /dev/null -d "_token=$TOKEN&email=demo@example.com&password=demo-pass-123" http://127.0.0.1:8000/login
+          mkdir -p site
+          wget --mirror --page-requisites --adjust-extension --convert-links --no-host-directories --no-parent \
+            --restrict-file-names=windows -e robots=off --level=3 --tries=2 --timeout=20 \
+            --load-cookies jar --keep-session-cookies \
+            --reject-regex '(logout|/delete|/destroy|/edit|/create|/password)' \
+            -P site \
+            http://127.0.0.1:8000/ http://127.0.0.1:8000/login http://127.0.0.1:8000/register http://127.0.0.1:8000/dashboard \
+            http://127.0.0.1:8000/docs http://127.0.0.1:8000/testing http://127.0.0.1:8000/history http://127.0.0.1:8000/profile/show || true
+          test -f site/index.html || { echo "no home page was captured"; tail -50 serve.log; exit 1; }
+          find site -name '*.html' -print0 | xargs -0 sed -i 's#<body\([^>]*\)>#<body\1><div style="background:\#2a2208;color:\#f3d98b;padding:8px 16px;font:14px/1.4 system-ui,sans-serif;text-align:center">Static demo snapshot: forms and live components are switched off.</div>#; s#http://127.0.0.1:8000/#./#g'
+          touch site/.nojekyll
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
