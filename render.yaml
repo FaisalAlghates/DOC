@@ -1,0 +1,13 @@
+# One-click deploy on Render (free plan): https://render.com/deploy?repo=https://github.com/FaisalAlghates/DOC
+# The container seeds its own SQLite database on every start, so the data resets when the free instance restarts.
+services:
+  - type: web
+    name: doc-demo
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    plan: free
+    healthCheckPath: /
+    envVars:
+      - key: APP_DEBUG
+        value: 'false'
